@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgrm2onye4ux7"]
+
+[ext_resource type="Script" path="res://scenes/spawner/scripts/spawner.gd" id="1_51oaa"]
+
+[node name="Spawner" type="Node2D"]
+script = ExtResource("1_51oaa")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -8, 32, -8, 32, -16, 48, 0, 32, 16, 32, 8, 0, 8)

@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnaq7rge6q5vs"]
+
+[ext_resource type="Script" path="res://scenes/marble/script/marble.gd" id="1_gpjdk"]
+
+[sub_resource type="Gradient" id="Gradient_ql0u4"]
+offsets = PackedFloat32Array(0.587097, 0.658065)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tw6su"]
+gradient = SubResource("Gradient_ql0u4")
+width = 35
+height = 35
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yegct"]
+radius = 15.0
+
+[node name="Marble" type="RigidBody2D"]
+continuous_cd = 2
+can_sleep = false
+script = ExtResource("1_gpjdk")
+
+[node name="Name" type="Label" parent="."]
+top_level = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -989.0
+offset_top = -38.0
+offset_right = -930.0
+offset_bottom = -12.0
+grow_horizontal = 2
+text = "VIEWER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_tw6su")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yegct")

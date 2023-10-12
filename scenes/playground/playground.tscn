@@ -1,0 +1,269 @@
+[gd_scene load_steps=8 format=3 uid="uid://d3s3ve2qhunie"]
+
+[ext_resource type="Script" path="res://scenes/playground/script/body.gd" id="1_626rc"]
+[ext_resource type="PackedScene" uid="uid://dgrm2onye4ux7" path="res://scenes/spawner/spawner.tscn" id="2_yibxw"]
+[ext_resource type="Script" path="res://scenes/playground/script/rigid.gd" id="3_7jwv5"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_udl71"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="Animation" id="Animation_ksx0p"]
+length = 0.001
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body11:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(768, 552)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body11:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body12:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1152, 552)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body12:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_mx0sm"]
+resource_name = "move"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body11:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(768, 552), Vector2(752, 576)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body11:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [0.0, 1.5708]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body12:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(1152, 552), Vector2(1168, 576)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body12:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [0.0, -1.5708]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6axvm"]
+_data = {
+"RESET": SubResource("Animation_ksx0p"),
+"move": SubResource("Animation_mx0sm")
+}
+
+[node name="Playground" type="Node2D"]
+
+[node name="Spawner" parent="." instance=ExtResource("2_yibxw")]
+position = Vector2(960, 256)
+
+[node name="Body" type="StaticBody2D" parent="."]
+position = Vector2(-520, 856)
+script = ExtResource("1_626rc")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body"]
+color = Color(0, 0.458824, 1, 1)
+polygon = PackedVector2Array(0, -64, 128, -64, 320, -320, 384, -320, 192, 64, -192, 64, -384, -320, -320, -320, -128, -64)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body"]
+
+[node name="Body9" type="StaticBody2D" parent="."]
+position = Vector2(768, 960)
+script = ExtResource("1_626rc")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body9"]
+color = Color(0, 0.458824, 1, 1)
+polygon = PackedVector2Array(-64, 40, -192, -224, -152, -224, -64, -64, 0, -40, 0, 40)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body9"]
+
+[node name="Body10" type="StaticBody2D" parent="."]
+position = Vector2(1152, 960)
+script = ExtResource("1_626rc")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body10"]
+color = Color(0, 0.458824, 1, 1)
+polygon = PackedVector2Array(192, -224, 160, -224, 64, -64, 0, -40, 0, 40, 64, 40)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body10"]
+
+[node name="Body2" type="StaticBody2D" parent="."]
+position = Vector2(960, 932)
+script = ExtResource("1_626rc")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body2"]
+color = Color(0, 0.458824, 1, 1)
+polygon = PackedVector2Array(256, -928, 576, -904, 768, -736, 576, -928, 256, -968, -320, -968, -640, -928, -832, -736, -640, -904, -320, -928)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body2"]
+
+[node name="Body3" type="StaticBody2D" parent="."]
+position = Vector2(1088, 448)
+script = ExtResource("1_626rc")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body3"]
+color = Color(0, 0.458824, 1, 1)
+polygon = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body3"]
+
+[node name="Body4" type="RigidBody2D" parent="."]
+position = Vector2(1088, 448)
+can_sleep = false
+script = ExtResource("3_7jwv5")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body4"]
+color = Color(0.105469, 0.105469, 0.109375, 1)
+polygon = PackedVector2Array(64, 8, 64, -96, 48, -96, 48, -8, -48, -8, -48, -96, -64, -96, -64, 96, -48, 96, -48, 8, 48, 8, 48, 96, 64, 96)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body4"]
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2(1088, 448)
+node_a = NodePath("../Body3")
+node_b = NodePath("../Body4")
+
+[node name="Body5" type="StaticBody2D" parent="."]
+position = Vector2(832, 448)
+script = ExtResource("1_626rc")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body5"]
+color = Color(0, 0.458824, 1, 1)
+polygon = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body5"]
+
+[node name="Body6" type="RigidBody2D" parent="."]
+position = Vector2(832, 448)
+can_sleep = false
+script = ExtResource("3_7jwv5")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body6"]
+color = Color(0.105882, 0.105882, 0.109804, 1)
+polygon = PackedVector2Array(128, 8, 128, -8, 8, -8, 8, -128, -8, -128, -8, -8, -128, -8, -128, 8, -8, 8, -8, 128, 8, 128, 8, 8)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body6"]
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="."]
+position = Vector2(832, 448)
+node_a = NodePath("../Body5")
+node_b = NodePath("../Body6")
+
+[node name="Body7" type="StaticBody2D" parent="."]
+position = Vector2(1536, 448)
+rotation = -0.785398
+physics_material_override = SubResource("PhysicsMaterial_udl71")
+script = ExtResource("1_626rc")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body7"]
+color = Color(1, 0, 0.368627, 1)
+polygon = PackedVector2Array(192, -24, 192.333, 22.6274, -192, 24, -192, -24)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body7"]
+
+[node name="Body8" type="StaticBody2D" parent="."]
+position = Vector2(400, 440)
+rotation = 0.785398
+physics_material_override = SubResource("PhysicsMaterial_udl71")
+script = ExtResource("1_626rc")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body8"]
+color = Color(1, 0, 0.368627, 1)
+polygon = PackedVector2Array(192, -24, 192, 24, -192, 24, -192, -24)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body8"]
+
+[node name="Body11" type="RigidBody2D" parent="."]
+position = Vector2(768, 552)
+can_sleep = false
+freeze = true
+freeze_mode = 1
+script = ExtResource("3_7jwv5")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body11"]
+color = Color(0.105882, 0.105882, 0.109804, 1)
+polygon = PackedVector2Array(192, -32, -192, -32, -192, 8, 192, 8)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body11"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6axvm")
+}

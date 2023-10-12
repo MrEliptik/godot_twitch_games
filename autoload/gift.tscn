@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dyy67dfcrgv4e"]
+
+[ext_resource type="Script" path="res://autoload/gift.gd" id="1_0qawm"]
+
+[node name="Gift" type="Node"]
+script = ExtResource("1_0qawm")

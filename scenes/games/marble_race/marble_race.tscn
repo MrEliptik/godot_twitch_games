@@ -1,0 +1,237 @@
+[gd_scene load_steps=15 format=3 uid="uid://cgnppxb5qpfsg"]
+
+[ext_resource type="Script" path="res://scenes/games/marble_race/scripts/marble_race.gd" id="1_a3unp"]
+[ext_resource type="Script" path="res://scenes/playground/script/body.gd" id="2_ibax2"]
+[ext_resource type="Script" path="res://scenes/playground/script/rigid.gd" id="3_2htur"]
+[ext_resource type="Shader" path="res://shared/shaders/hexagone.gdshader" id="4_p3agy"]
+[ext_resource type="PackedScene" uid="uid://dae8jf055dv4o" path="res://scenes/games/marble_race/end_area/end_area.tscn" id="5_gnoyd"]
+[ext_resource type="PackedScene" uid="uid://sq2e8m82bur0" path="res://scenes/games/marble_race/walls/walls.tscn" id="6_qwdlx"]
+
+[sub_resource type="Gradient" id="Gradient_2n05e"]
+offsets = PackedFloat32Array(0, 0.512658, 1)
+colors = PackedColorArray(0.0833, 0.12954, 0.17, 1, 0.34126, 0.511719, 0.367651, 1, 0.782369, 1, 0.923693, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8uhct"]
+gradient = SubResource("Gradient_2n05e")
+width = 2500
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r7pgy"]
+shader = ExtResource("4_p3agy")
+shader_parameter/scale = Vector2(2000, 2000)
+shader_parameter/speed_scale = 0.25
+shader_parameter/gradient_map = SubResource("GradientTexture1D_8uhct")
+
+[sub_resource type="Animation" id="Animation_ksx0p"]
+length = 0.001
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body11:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(768, 552)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body11:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body12:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1152, 552)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body12:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_mx0sm"]
+resource_name = "move"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body11:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(768, 552), Vector2(752, 576)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body11:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [0.0, 1.5708]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Body12:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(1152, 552), Vector2(1168, 576)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Body12:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [0.0, -1.5708]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6axvm"]
+_data = {
+"RESET": SubResource("Animation_ksx0p"),
+"move": SubResource("Animation_mx0sm")
+}
+
+[sub_resource type="Curve2D" id="Curve2D_cllto"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 336, 128, 0, 0, 0, 0, 600, 128, 0, 0, 0, 0, 600, 312, 0, 0, 0, 0, 760, 576, -0.7937, -127.786, 0.7937, 127.786, 760, 832, -0.594603, -63.028, 0.594603, 63.028, 1088, 1104, 0, -63.2538, 0, 63.2538, 1088, 1216, 0, -84.4286, 0, 84.4286, 640, 1400, 0, 0, 0, 0, 640, 1600, 0, 0, 0, 0, 768, 1728, 0, 0, 0, 0, 896, 1728, 0, 0, 0, 0, 896, 1752, 0, 0, 0, 0, 584, 1736, 0, 0, 0, 0, 344, 192)
+}
+point_count = 14
+
+[sub_resource type="Curve2D" id="Curve2D_qneh5"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1432, 304, 0, 0, 0, 0, 1408, 1288, 0, 0, 0, 0, 1240, 1576, 0, 0, 0, 0, 1016, 1840, 0, 0, 0, 0, 896, 1728, 0, 0, 0, 0, 1024, 1728, 0, 0, 0, 0, 1136, 1600, -1.5874, 57.1464, 1.5874, -57.1464, 1136, 1408, -0.445449, 63.6993, 0.445449, -63.6993, 1344, 1280, -0.594603, 63.6226, 0.594603, -63.6226, 1344, 1024, 0.7937, 127.786, -0.7937, -127.786, 1160, 832, 0, 0, 0, 0, 1160, 576, 0, 0, 0, 0, 1376, 232)
+}
+point_count = 13
+
+[node name="MarbleRace" type="Node2D"]
+script = ExtResource("1_a3unp")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.6, 0.6)
+
+[node name="Hexagone" type="ColorRect" parent="ParallaxBackground/ParallaxLayer"]
+material = SubResource("ShaderMaterial_r7pgy")
+offset_left = -305.0
+offset_top = -638.0
+offset_right = 2195.0
+offset_bottom = 1862.0
+
+[node name="ViewerContainer" type="Node2D" parent="."]
+position = Vector2(960, 244)
+
+[node name="Body9" type="StaticBody2D" parent="."]
+position = Vector2(768, 536)
+script = ExtResource("2_ibax2")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body9"]
+color = Color(0, 0.458824, 1, 1)
+polygon = PackedVector2Array(-64, 40, -192, -224, -152, -224, -64, -64, 0, -40, 0, 40)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body9"]
+
+[node name="Body10" type="StaticBody2D" parent="."]
+position = Vector2(1152, 536)
+script = ExtResource("2_ibax2")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body10"]
+color = Color(0, 0.458824, 1, 1)
+polygon = PackedVector2Array(192, -224, 160, -224, 64, -64, 0, -40, 0, 40, 64, 40)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body10"]
+
+[node name="Body11" type="RigidBody2D" parent="."]
+position = Vector2(768, 552)
+can_sleep = false
+freeze = true
+freeze_mode = 1
+script = ExtResource("3_2htur")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body11"]
+color = Color(0.105882, 0.105882, 0.109804, 1)
+polygon = PackedVector2Array(192, -16, 0, -16, 0, 24, 192, 24)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body11"]
+
+[node name="Body12" type="RigidBody2D" parent="."]
+position = Vector2(1152, 552)
+can_sleep = false
+freeze = true
+freeze_mode = 1
+script = ExtResource("3_2htur")
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Body12"]
+color = Color(0.105882, 0.105882, 0.109804, 1)
+polygon = PackedVector2Array(-192, -16, 0, -16, 0, 24, -192, 24)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body12"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6axvm")
+}
+
+[node name="EndArea" parent="." instance=ExtResource("5_gnoyd")]
+position = Vector2(896, 1696)
+
+[node name="Polygon2D" parent="EndArea" index="0"]
+polygon = PackedVector2Array(-192, -32, 184, -32, 128, 32, -128, 32)
+
+[node name="Walls" parent="." instance=ExtResource("6_qwdlx")]
+
+[node name="Path2D" parent="Walls" index="0"]
+curve = SubResource("Curve2D_cllto")
+
+[node name="Walls2" parent="." instance=ExtResource("6_qwdlx")]
+
+[node name="Path2D" parent="Walls2" index="0"]
+curve = SubResource("Curve2D_qneh5")
+
+[editable path="EndArea"]
+[editable path="Walls"]
+[editable path="Walls2"]

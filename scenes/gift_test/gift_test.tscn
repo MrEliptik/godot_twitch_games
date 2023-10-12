@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvrrndeupw8o7"]
+
+[ext_resource type="Script" path="res://scenes/gift_test/gift_test.gd" id="1_bbk2c"]
+[ext_resource type="PackedScene" uid="uid://dyy67dfcrgv4e" path="res://autoload/gift.tscn" id="2_1cvmf"]
+
+[node name="Test" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_bbk2c")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 124.0
+offset_right = 475.0
+offset_bottom = 172.0
+theme_override_font_sizes/font_size = 31
+text = "AZDZFDZF"
+
+[node name="Gift" parent="." instance=ExtResource("2_1cvmf")]
