@@ -12,13 +12,15 @@ extends Node2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
-	GiftSingleton.viewer_join.connect(on_viewer_joined)
+	GiftSingleton.viewer_joined.connect(on_viewer_joined)
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		animation_player.play("move")
 
 func spawn_viewer(viewer_name: String) -> void:
+	if Viewers.is_viewer_joined(viewer_name): return
+	Viewers.add_viewer(viewer_name)
 	var instance = marble.instantiate()
 	instance.viewer_name = viewer_name
 	viewer_container.call_deferred("add_child", instance)

@@ -1,6 +1,7 @@
 extends Gift
 
-signal viewer_join(name)
+signal viewer_joined(name)
+signal viewer_left(name)
 
 func _ready() -> void:
 	cmd_no_permission.connect(no_permission)
@@ -40,6 +41,7 @@ func _ready() -> void:
 #	add_command("test", command_test, 0, 0, PermissionFlag.NON_REGULAR)
 	
 	add_command("join", add_viewer)
+	add_command("leave", remove_viewer)
 
 	# These two commands can be executed by everyone
 #	add_command("helloworld", hello_world)
@@ -108,4 +110,7 @@ func list(cmd_info : CommandInfo, arg_ary : PackedStringArray) -> void:
 	chat(msg)
 
 func add_viewer(cmd_info: CommandInfo) -> void:
-	viewer_join.emit(cmd_info.sender_data.tags["display-name"])
+	viewer_joined.emit(cmd_info.sender_data.tags["display-name"])
+	
+func remove_viewer(cmd_info: CommandInfo) -> void:
+	viewer_left.emit(cmd_info.sender_data.tags["display-name"])
