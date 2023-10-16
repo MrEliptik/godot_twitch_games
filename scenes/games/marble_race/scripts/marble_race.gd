@@ -14,6 +14,7 @@ extends Node2D
 func _ready() -> void:
 	GiftSingleton.viewer_joined.connect(on_viewer_joined)
 	GiftSingleton.viewer_left.connect(on_viewer_left)
+	GiftSingleton.user_left_chat.connect(on_viewer_left_chat)
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
@@ -47,3 +48,6 @@ func on_viewer_joined(viewer_name: String) -> void:
 	
 func on_viewer_left(viewer_name: String) -> void:
 	remove_viewer(viewer_name)
+
+func on_viewer_left_chat(sender_data: SenderData) -> void:
+	remove_viewer(sender_data.user)

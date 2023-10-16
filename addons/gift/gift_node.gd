@@ -30,6 +30,10 @@ signal cmd_no_permission(cmd_name, sender_data, cmd_data, arg_ary)
 # Twitch IRC ping is about to be answered with a pong.
 signal pong
 
+# User joins chat
+signal user_joined_chat(sender_data)
+# User leaves chat
+signal user_left_chat(sender_data)
 
 # The underlying websocket sucessfully connected to Twitch EventSub.
 signal events_connected
@@ -630,6 +634,13 @@ func handle_message(message : String, tags : Dictionary) -> void:
 			else:
 				for key in tags:
 					last_state[room][key] = tags[key]
+		#### ADDED BY ME, MRELIPTIK
+		"JOIN":
+			var sender_data : SenderData = SenderData.new(user_regex.search(msg[0]).get_string(), msg[2], tags)
+			user_joined_chat.emit(sender_data)
+		"PART":
+			var sender_data : SenderData = SenderData.new(user_regex.search(msg[0]).get_string(), msg[2], tags)
+			user_left_chat.emit(sender_data)
 		_:
 			unhandled_message.emit(message, tags)
 
