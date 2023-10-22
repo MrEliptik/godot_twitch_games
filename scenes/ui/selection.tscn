@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=3 uid="uid://ci0uohxhthwfw"]
+
+[ext_resource type="Script" path="res://scenes/ui/scripts/selection.gd" id="1_58emc"]
+[ext_resource type="PackedScene" uid="uid://hc88uh4mv3bl" path="res://scenes/ui/selection_button.tscn" id="1_b3pkf"]
+
+[sub_resource type="Gradient" id="Gradient_e174d"]
+offsets = PackedFloat32Array(0, 0.986486)
+colors = PackedColorArray(0.128906, 0.128906, 0.128906, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0j12g"]
+gradient = SubResource("Gradient_e174d")
+width = 1280
+height = 720
+fill_to = Vector2(1, 1)
+metadata/_snap_enabled = true
+
+[node name="Selection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_58emc")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_0j12g")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -552.0
+offset_top = -267.0
+offset_right = 553.0
+offset_bottom = 268.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 35
+theme_override_constants/v_separation = 35
+columns = 4
+
+[node name="Button" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+game_name = "Marble game"
+
+[node name="Button2" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+disabled = true
+
+[node name="Button3" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+disabled = true
+
+[node name="Button4" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+disabled = true
+
+[node name="Button5" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+disabled = true
+
+[node name="Button6" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+disabled = true
+
+[node name="Button7" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+disabled = true

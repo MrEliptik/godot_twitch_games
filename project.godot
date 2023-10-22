@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="godot_twitch_games"
-run/main_scene="res://scenes/games/marble_race/marble_race.tscn"
+run/main_scene="res://scenes/ui/selection.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.png"
 
@@ -19,6 +19,7 @@ config/icon="res://icon.png"
 
 GiftSingleton="*res://autoload/gift.tscn"
 Viewers="*res://autoload/viewers.gd"
+Transition="*res://autoload/transition.tscn"
 
 [display]
 
