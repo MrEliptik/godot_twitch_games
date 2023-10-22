@@ -32,7 +32,7 @@ Developed by me, MrEliptik!
 - [Discord](https://discord.gg/83nFRPTP6t)
 - [All links](https://bento.me/mreliptik)
 
-### 🧰 Addons
+## 🧰 Addons
 
 - [GIFT](https://github.com/MennoMax/gift) - Godot IRC For Twitch addon
 - [Box2D](https://github.com/lightspeedlucas/godot-box2d) - Box2D integration module for Godot
