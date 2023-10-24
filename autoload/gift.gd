@@ -38,7 +38,6 @@ func _ready() -> void:
 	status.emit(STATUS.CONNECTING)
 	var success = await(connect_to_irc())
 	if (success):
-		status.emit("connected")
 		request_caps()
 		join_channel(initial_channel)
 		status.emit(STATUS.CONNECTED)
