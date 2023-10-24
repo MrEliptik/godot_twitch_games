@@ -2,6 +2,15 @@ extends Gift
 
 signal viewer_joined(name)
 signal viewer_left(name)
+signal status(status_id: STATUS)
+
+enum STATUS {
+	INIT,
+	AUTH_START,
+	CONNECTION_FAILED,
+	CONNECTING,
+	CONNECTED
+}
 
 func _ready() -> void:
 	cmd_no_permission.connect(no_permission)
@@ -15,6 +24,7 @@ func _ready() -> void:
 	# <client_id>
 	# <client_secret>
 	# <initial channel>
+	status.emit(STATUS.INIT)
 	var authfile := FileAccess.open("./auth.txt", FileAccess.READ)
 	client_id = authfile.get_line()
 	client_secret = authfile.get_line()
@@ -22,11 +32,18 @@ func _ready() -> void:
 
 	# When calling this method, a browser will open.
 	# Log in to the account that should be used.
+	status.emit(STATUS.AUTH_START)
 	await(authenticate(client_id, client_secret))
+
+	status.emit(STATUS.CONNECTING)
 	var success = await(connect_to_irc())
 	if (success):
 		request_caps()
 		join_channel(initial_channel)
+		status.emit(STATUS.CONNECTED)
+	else:
+		status.emit(STATUS.CONNECTION_FAILED)
+
 #	await(connect_to_eventsub())
 	# Refer to https://dev.twitch.tv/docs/eventsub/eventsub-subscription-types/ for details on
 	# what events exist, which API versions are available and which conditions are required.
@@ -39,7 +56,7 @@ func _ready() -> void:
 	# the second arg will contain all params in a PackedStringArray
 	# This command can only be executed by VIPS/MODS/SUBS/STREAMER
 #	add_command("test", command_test, 0, 0, PermissionFlag.NON_REGULAR)
-	
+
 	add_command("join", add_viewer)
 	add_command("leave", remove_viewer)
 
@@ -111,6 +128,6 @@ func list(cmd_info : CommandInfo, arg_ary : PackedStringArray) -> void:
 
 func add_viewer(cmd_info: CommandInfo) -> void:
 	viewer_joined.emit(cmd_info.sender_data.tags["display-name"])
-	
+
 func remove_viewer(cmd_info: CommandInfo) -> void:
 	viewer_left.emit(cmd_info.sender_data.tags["display-name"])
