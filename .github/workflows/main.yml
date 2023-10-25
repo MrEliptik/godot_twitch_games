@@ -13,7 +13,8 @@ jobs:
             uses: actions/checkout@v4.1.1
 
         -   name: Create folder for Godot
-            run: mkdir -p .godot/editor .godot/imported
+            run: |
+                mkdir -p .godot/editor .godot/imported
 
         -   name: export game
             id: export
