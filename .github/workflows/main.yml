@@ -12,6 +12,9 @@ jobs:
         -   name: checkout
             uses: actions/checkout@v4.1.1
 
+        -   name: Create folder for Godot
+            run: mkdir -p .godot/editor .godot/imported
+
         -   name: export game
             id: export
             uses: firebelley/godot-export@v5.2.1
