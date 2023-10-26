@@ -24,8 +24,13 @@ If you enjoyed this project and want to support me:
 
 This project is distributed under the MIT license, check [LICENSE](LICENSE).
 
-Developed by me, MrEliptik!
+Developed by me and the amazing contributors 👇
 
+<a href="https://github.com/MrEliptik/godot_twitch_games/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=MrEliptik/godot_twitch_games" />
+</a>  
+
+### 🔗 My links
 - [Twitter](https://twitter.com/mreliptik)
 - [Twitch](https://twitch.tv/mreliptik)
 - [YouTube](https://www.youtube.com/c/MrEliptik)
