@@ -1,5 +1,5 @@
-res://scenes/ui
 res://autoload
+res://scenes/ui
 res://shared/shaders
 res://scenes/ui/scripts
 res://

@@ -1,3 +1,14 @@
 res://scenes/ui/selection.tscn
 res://shared/shaders/circle_transition.gdshader
 res://shared/shaders/hexagone.gdshader
+res://autoload/admin_window.tscn
+res://scenes/games/marble_race/marble_race.tscn
+res://scenes/marble/marble.tscn
+res://autoload/gift.tscn
+res://scenes/playground/playground.tscn
+res://scenes/spawner/spawner.tscn
+res://scenes/games/marble_race/end_area/end_area.tscn
+res://scenes/games/marble_race/walls/walls.tscn
+res://scenes/ui/selection_button.tscn
+res://autoload/transition.tscn
+res://autoload/admin_window.gd
