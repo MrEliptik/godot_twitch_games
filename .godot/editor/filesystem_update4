@@ -1,0 +1,3 @@
+res://scenes/ui/selection.tscn
+res://shared/shaders/circle_transition.gdshader
+res://shared/shaders/hexagone.gdshader
