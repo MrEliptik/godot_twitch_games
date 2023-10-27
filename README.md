@@ -36,3 +36,7 @@ Developed by me, MrEliptik!
 
 - [GIFT](https://github.com/MennoMax/gift) - Godot IRC For Twitch addon
 - [Box2D](https://github.com/lightspeedlucas/godot-box2d) - Box2D integration module for Godot
+
+## Configuration
+
+- [Configuration](configuration.md) - How to setup the project (Twitch etc.)
