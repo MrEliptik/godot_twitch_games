@@ -18,6 +18,7 @@ config/version="0.0.1"
 
 [autoload]
 
+GiftNode="*res://shared/gift/gift_node.gd"
 GiftSingleton="*res://autoload/gift.tscn"
 Viewers="*res://autoload/viewers.gd"
 Transition="*res://autoload/transition.tscn"
@@ -29,10 +30,6 @@ window/size/viewport_height=1080
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="viewport"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/gift/plugin.cfg")
 
 [physics]
 
