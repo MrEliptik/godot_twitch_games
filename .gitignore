@@ -1,3 +1,9 @@
-# Godot 4+ specific ignores
-.godot/
+# Godot 4+ specific ignores. importd folder should be commitet due to a bug in godot 4: https://github.com/godotengine/godot/issues/77508
+.godot/editor
+.godot/shader_cache
+.godot/*.cfg
+.godot/*.bin
+.godot/.gdignore
+
 auth.txt
+
