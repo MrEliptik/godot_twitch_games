@@ -15,11 +15,11 @@ var status_messages = {
 
 
 func _ready() -> void:
-	# GiftSingleton.status.connect(on_status_changed)
+	GiftSingleton.status.connect(on_status_changed)
 
 	# when we connect to late to get the last status, we pull the last status that was emited
-	# if GiftSingleton.last_status != GiftSingleton.STATUS.NONE:
-	#	on_status_changed(GiftSingleton.last_status)
+	if GiftSingleton.last_status != GiftSingleton.STATUS.NONE:
+		on_status_changed(GiftSingleton.last_status)
 
 	for c in grid_container.get_children():
 		c.pressed.connect(on_btn_pressed.bind(c.scene))
