@@ -59,15 +59,6 @@ editable = false
 wrap_mode = 1
 script = ExtResource("2_x0h1p")
 
-[node name="ItemList" type="ItemList" parent="Control/MarginContainer/VBoxContainer"]
-visible = false
-layout_mode = 2
-size_flags_vertical = 3
-text_overrun_behavior = 0
-item_count = 2
-item_0/text = "HELLO"
-item_1/text = "IZFDJZIFJOIZJIOFJIOJOIJZEIOFJOIZEJFOJZEOFJIZJEFOIJZEOIFJOIZEJFOIZJEFOIJZEOIFJOZIJEFOIZEFJIO"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
