@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckx4fpsndvy62"]
+
+[ext_resource type="Script" path="res://scenes/games/numbermind/scripts/numbermind.gd" id="1_66q02"]
+
+[node name="numbermind" type="Node2D"]
+script = ExtResource("1_66q02")
+
+[node name="Results" type="RichTextLabel" parent="."]
+offset_left = 24.0
+offset_top = 80.0
+offset_right = 1024.0
+offset_bottom = 1056.0
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+tab_size = 24
+
+[node name="Instructions" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 64.0
+offset_bottom = 47.0
+theme_override_font_sizes/font_size = 24
