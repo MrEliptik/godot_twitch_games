@@ -13,7 +13,7 @@
 ```
 [twitch_auth]
 
-client_id=    "kjjust2nhexampleybnotreal2928y"
+client_id="kjjust2nhexampleybnotreal2928y"
 client_secret="kjjust2nhexampleybnotreal2928y"
 initial_channel="yourchannel"
 ```
