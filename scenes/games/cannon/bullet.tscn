@@ -1,0 +1,86 @@
+[gd_scene load_steps=11 format=3 uid="uid://c2d2jf6iqxrf6"]
+
+[ext_resource type="Script" path="res://scenes/games/cannon/bullet.gd" id="1_3enl3"]
+[ext_resource type="Script" path="res://addons/trail_2d/trail_2d.gd" id="2_fe6gf"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uddch"]
+bounce = 0.71
+
+[sub_resource type="Curve" id="Curve_i8bl6"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_nqjmr"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_b736v"]
+curve = SubResource("Curve_nqjmr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f5wr3"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_curve = SubResource("CurveTexture_b736v")
+
+[sub_resource type="Gradient" id="Gradient_ql0u4"]
+offsets = PackedFloat32Array(0.587097, 0.658065)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tw6su"]
+gradient = SubResource("Gradient_ql0u4")
+width = 35
+height = 35
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yegct"]
+radius = 15.0
+
+[node name="Bullet" type="RigidBody2D"]
+collision_layer = 3
+collision_mask = 3
+physics_material_override = SubResource("PhysicsMaterial_uddch")
+continuous_cd = 2
+can_sleep = false
+script = ExtResource("1_3enl3")
+
+[node name="Name" type="Label" parent="."]
+top_level = true
+z_index = 10
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -989.0
+offset_top = -38.0
+offset_right = -930.0
+offset_bottom = -12.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 26
+text = "VIEWER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Trail2D" type="Line2D" parent="."]
+width = 32.0
+width_curve = SubResource("Curve_i8bl6")
+script = ExtResource("2_fe6gf")
+length = 32
+
+[node name="Trail" type="GPUParticles2D" parent="."]
+visible = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_f5wr3")
+texture = SubResource("GradientTexture2D_tw6su")
+lifetime = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_tw6su")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yegct")
