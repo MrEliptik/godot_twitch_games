@@ -1,7 +1,8 @@
-res://scenes/ui
-res://autoload
-res://shared/shaders
+res://scenes/games/cannon
 res://scenes/ui/scripts
+res://autoload
+res://scenes/ui
+res://shared/shaders
 res://
 res://scenes/games/marble_race/walls
 res://scenes/games/marble_race/walls/scripts

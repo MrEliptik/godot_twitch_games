@@ -11,7 +11,7 @@
 offsets = PackedFloat32Array(0, 0.512658, 1)
 colors = PackedColorArray(0.0833, 0.12954, 0.17, 1, 0.34126, 0.511719, 0.367651, 1, 0.782369, 1, 0.923693, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_8uhct"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pcyv0"]
 gradient = SubResource("Gradient_2n05e")
 width = 2500
 
@@ -19,7 +19,7 @@ width = 2500
 shader = ExtResource("4_p3agy")
 shader_parameter/scale = Vector2(2000, 2000)
 shader_parameter/speed_scale = 0.25
-shader_parameter/gradient_map = SubResource("GradientTexture1D_8uhct")
+shader_parameter/gradient_map = SubResource("GradientTexture1D_pcyv0")
 
 [sub_resource type="Animation" id="Animation_ksx0p"]
 length = 0.001
@@ -157,6 +157,7 @@ offset_left = -305.0
 offset_top = -638.0
 offset_right = 2195.0
 offset_bottom = 1862.0
+metadata/_edit_use_anchors_ = true
 
 [node name="ViewerContainer" type="Node2D" parent="."]
 position = Vector2(960, 244)
