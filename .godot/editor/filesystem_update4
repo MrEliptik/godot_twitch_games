@@ -1,12 +1,6 @@
 res://scenes/games/marble_race/marble_race.tscn
-res://shared/shaders/circle_transition.gdshader
 res://shared/shaders/hexagone.gdshader
-res://scenes/marble/script/marble.gd
-res://scenes/games/marble_race/scripts/marble_race.gd
-res://scenes/ui/scripts/selection_button.gd
-res://scenes/spawner/scripts/spawner.gd
-res://autoload/transition.gd
-res://autoload/viewers.gd
+res://shared/shaders/circle_transition.gdshader
 res://scenes/marble/marble.tscn
 res://autoload/gift.tscn
 res://scenes/playground/playground.tscn
@@ -16,4 +10,6 @@ res://scenes/games/marble_race/walls/walls.tscn
 res://scenes/ui/selection.tscn
 res://scenes/ui/selection_button.tscn
 res://autoload/transition.tscn
-res://autoload/gift.gd
+res://autoload/admin_window.tscn
+res://autoload/admin_window.gd
+res://scenes/ui/scripts/text_edit.gd
