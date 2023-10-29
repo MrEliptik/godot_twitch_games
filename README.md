@@ -43,3 +43,12 @@ If you enjoyed this project and want to support me:
 - [YouTube](https://www.youtube.com/c/MrEliptik)
 - [Discord](https://discord.gg/83nFRPTP6t)
 - [All links](https://bento.me/mreliptik)
+
+## 🧰 Addons
+
+- [GIFT](https://github.com/MennoMax/gift) - Godot IRC For Twitch addon
+- [Box2D](https://github.com/lightspeedlucas/godot-box2d) - Box2D integration module for Godot
+
+## 🛠️ Configuration
+
+- [Configuration](configuration.md) - How to setup the project (Twitch etc.)

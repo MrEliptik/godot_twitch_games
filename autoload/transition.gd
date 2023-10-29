@@ -9,7 +9,7 @@ signal done()
 func show_transition() -> void:
 	if shown: return
 	animation_player.play("show")
-	
+
 func hide_transition() -> void:
 	if not shown: return
 	animation_player.play("hide")

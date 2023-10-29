@@ -6,14 +6,14 @@ var tween: Tween
 
 func _ready():
 	pass
-	
+
 func _process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		spawn_marbles(50)
 
 func spawn_marbles(amount: int) -> void:
 	var degree_rotate: float = 360.0 / amount
-	
+
 	if tween and tween.is_running(): tween.kill()
 	tween = create_tween()
 	tween.set_loops(amount)
