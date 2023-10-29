@@ -14,7 +14,7 @@ func focus_on() -> void:
 		tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property(self, "scale", Vector2(1, 1), 0.2)
-	
+
 func focus_off() -> void:
 	pivot_offset = size / 2.0
 	if tween and tween.is_running():

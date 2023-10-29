@@ -11,6 +11,6 @@ func _ready():
 	name_lbl.text = viewer_name
 	name_lbl.top_level = true
 	name_lbl.modulate = modulate
-	
+
 func _process(delta: float) -> void:
 	name_lbl.global_position = global_position + label_offset

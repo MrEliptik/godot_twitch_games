@@ -1,0 +1,91 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxq5bvkrtriqq"]
+
+[ext_resource type="Script" path="res://scenes/ui/scripts/setup.gd" id="1_uo7aa"]
+
+[node name="setup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_uo7aa")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Heading" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 19
+text = "Twitch"
+
+[node name="Description" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Before we can start, we have to setup twitch integration.
+
+"
+
+[node name="ClientIdLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "client_id"
+
+[node name="ClientIdEdit" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ClientIdError" type="Label" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.490196, 0.490196, 1)
+theme_override_font_sizes/font_size = 12
+text = " "
+
+[node name="ClientSecretLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "client_secret"
+
+[node name="ClientSecretEdit" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ClientSecretError" type="Label" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.490196, 0.490196, 1)
+theme_override_font_sizes/font_size = 12
+text = " "
+
+[node name="ChannelLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "channel"
+
+[node name="ChannelEdit" type="LineEdit" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ChannelError" type="Label" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.490196, 0.490196, 1)
+theme_override_font_sizes/font_size = 12
+text = " "
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 32
+
+[node name="CreateButton" type="Button" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Create"

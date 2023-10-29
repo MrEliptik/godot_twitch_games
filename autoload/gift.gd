@@ -4,12 +4,6 @@ signal viewer_joined(name)
 signal viewer_left(name)
 signal status(status_id: STATUS)
 
-var auth_file_name := "auth.txt"
-var auth_file_locations := [
-	"./" + auth_file_name,
-	"user://" + auth_file_name,
-]
-
 enum STATUS {
 	NONE,
 	INIT,
@@ -21,35 +15,31 @@ enum STATUS {
 }
 
 var last_status: = STATUS.NONE
-var authfile: FileAccess
+
+var setup_scene: PackedScene = preload("res://scenes/ui/setup.tscn")
+
 
 func _ready() -> void:
+	start()
+
+
+func start() -> void:
 	emit_status(STATUS.INIT)
 
-	# I use a file in the working directory to store auth data
-	# so that I don't accidentally push it to the repository.
-	# Replace this or create a auth file with 3 lines in your
-	# project directory:
-	# <client_id>
-	# <client_secret>
-	# <initial channel>
+	var config = ConfigManager.new().data
 
-	for location in auth_file_locations:
-		authfile = FileAccess.open(location, FileAccess.READ)
-		if authfile != null:
-			break
-
-	if !authfile:
+	if !config:
 		emit_status(STATUS.AUTH_FILE_NOT_FOUND)
+		get_tree().change_scene_to_packed(setup_scene)
 		return
+
+	client_id = config.twitch_auth.client_id
+	client_secret = config.twitch_auth.client_secret
+	var initial_channel = config.twitch_auth.initial_channel
 
 	cmd_no_permission.connect(no_permission)
 	chat_message.connect(on_chat)
 	event.connect(on_event)
-
-	client_id = authfile.get_line()
-	client_secret = authfile.get_line()
-	var initial_channel = authfile.get_line()
 
 	# When calling this method, a browser will open.
 	# Log in to the account that should be used.
@@ -110,6 +100,7 @@ func _ready() -> void:
 
 	# Send a whisper to target user
 #	whisper("TEST", initial_channel)
+
 
 func emit_status(new_status: STATUS) -> void:
 	status.emit(new_status)
