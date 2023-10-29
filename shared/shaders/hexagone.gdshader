@@ -5,22 +5,22 @@ uniform float speed_scale: hint_range(0.0, 10.0, 0.01) = 1.0;
 
 float HexDist(vec2 p) {
 	p = abs(p);
-    
+
     float c = dot(p, normalize(vec2(1,1.73)));
     c = max(c, p.x);
-    
+
     return c;
 }
 
 vec4 HexCoords(vec2 uv) {
 	vec2 r = vec2(1, 1.73);
     vec2 h = r*.5;
-    
+
     vec2 a = mod(uv, r)-h;
     vec2 b = mod(uv-h, r)-h;
-    
+
     vec2 gv = dot(a, a) < dot(b,b) ? a : b;
-    
+
     float x = atan(gv.x, gv.y);
     float y = .5-HexDist(gv);
     vec2 id = uv-gv;
@@ -57,7 +57,7 @@ void fragment() {
 	vec2 uv = UV * scale;
     uv *= 10.0;
     vec4 hc = HexCoords(uv / 500.0);
-    
+
 	int i = hc.y < 0.05 ? 0 : (hc.y > 0.15 ? 1 : 2);
 	vec3 xcol1 = vec3(stripes(uv.xy, 0.005)) * noise(hc.zw / 3.0 + (TIME*speed_scale));
 	vec3 xcol2 = vec3(0.375) * noise(hc.zw / 3.0 + (TIME*speed_scale) * -1.0);
