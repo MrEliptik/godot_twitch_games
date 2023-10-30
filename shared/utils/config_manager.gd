@@ -34,7 +34,11 @@ func create_configuration(config_data: Dictionary) -> void:
 
 			config.set_value(section, key, config_data[section][key])
 
-	config.save(config_file_locations[0])
+
+	if OS.has_feature("editor"):
+		config.save(config_file_locations[0])
+	else:
+		config.save(config_file_locations[1])
 
 
 func is_allowed(section: String, key: String) -> bool:
