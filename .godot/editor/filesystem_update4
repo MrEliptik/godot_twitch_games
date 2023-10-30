@@ -1,9 +1,6 @@
-res://scenes/games/marble_race/marble_race.tscn
+res://autoload/admin_window.gd
+res://scenes/games/cannon/cannon.gd
+res://scenes/games/marble_race/scripts/marble_race.gd
+res://scenes/games/numbermind/scripts/numbermind.gd
 res://shared/shaders/hexagone.gdshader
 res://shared/shaders/circle_transition.gdshader
-res://scenes/games/marble_race/end_area/end_area.tscn
-res://scenes/games/marble_race/walls/walls.tscn
-res://scenes/ui/selection.tscn
-res://scenes/games/cannon/cannon.tscn
-res://autoload/admin_window.tscn
-res://autoload/admin_window.gd
