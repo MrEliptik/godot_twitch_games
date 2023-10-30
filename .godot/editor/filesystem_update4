@@ -1,7 +1,9 @@
-res://scenes/ui/selection.tscn
+res://scenes/games/marble_race/marble_race.tscn
 res://shared/shaders/hexagone.gdshader
 res://shared/shaders/circle_transition.gdshader
-res://shared/utils/games_manager.gd
-res://scenes/ui/scripts/selection.gd
-res://scenes/ui/scripts/selection_button.gd
-res://scenes/ui/selection_button.tscn
+res://scenes/games/marble_race/end_area/end_area.tscn
+res://scenes/games/marble_race/walls/walls.tscn
+res://scenes/ui/selection.tscn
+res://scenes/games/cannon/cannon.tscn
+res://autoload/admin_window.tscn
+res://autoload/admin_window.gd
