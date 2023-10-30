@@ -1,7 +1,10 @@
 extends Control
 
-@onready var grid_container = $GridContainer
+@onready var button_container = %ButtonContainer
 @onready var status_value: Label = %StatusValue
+@onready var games: Array = GamesManager.new().get_games()
+
+var button_scene = preload("res://scenes/ui/selection_button.tscn")
 
 # TODO: move to translation file later
 var status_messages = {
@@ -13,7 +16,6 @@ var status_messages = {
 	CONNECTED = "connected"
 }
 
-
 func _ready() -> void:
 	GiftSingleton.status.connect(on_status_changed)
 
@@ -21,9 +23,19 @@ func _ready() -> void:
 	if GiftSingleton.last_status != GiftSingleton.STATUS.NONE:
 		on_status_changed(GiftSingleton.last_status)
 
-	for c in grid_container.get_children():
-		c.pressed.connect(on_btn_pressed.bind(c.scene))
-	
+	# delete buttons - we need them only for layouting
+	for c in button_container.get_children():
+		c.queue_free()
+
+	for game_config in games:
+		var game_button = button_scene.instantiate()
+		game_button.game_name = game_config.name
+		game_button.scene_path = game_config.scene_path
+		game_button.icon_texture = game_config.icon if game_config.has("icon") else null
+		button_container.add_child(game_button)
+
+		game_button.pressed.connect(on_btn_pressed.bind(game_button.scene))
+
 	Transition.hide_transition()
 
 func on_btn_pressed(scene: PackedScene) -> void:

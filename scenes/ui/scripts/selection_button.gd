@@ -1,12 +1,27 @@
 extends Button
 
-@export var game_name: String = "Game name"
-@export var scene: PackedScene = preload("res://scenes/games/marble_race/marble_race.tscn")
+@onready var button_icon: TextureRect = $Icon
 
+var game_name: String = "Game name":
+	set(value):
+		game_name = value
+		$Label.text = game_name
+
+var scene_path: String:
+	set(value):
+		scene_path = value
+		scene = load(scene_path)
+
+var icon_texture
+
+
+var scene: PackedScene
 var tween: Tween
 
-func _ready():
-	$Label.text = game_name
+func _ready() -> void:
+	if icon_texture:
+		button_icon.texture = icon_texture
+
 
 func focus_on() -> void:
 	pivot_offset = size / 2.0
