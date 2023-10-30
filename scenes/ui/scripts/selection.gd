@@ -23,6 +23,8 @@ func _ready() -> void:
 
 	for c in grid_container.get_children():
 		c.pressed.connect(on_btn_pressed.bind(c.scene))
+	
+	Transition.hide_transition()
 
 func on_btn_pressed(scene: PackedScene) -> void:
 	Transition.show_transition()

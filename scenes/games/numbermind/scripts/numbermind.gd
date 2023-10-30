@@ -11,6 +11,10 @@ func _ready():
 	GiftSingleton.add_command("guess", on_guess_made, 1, 1)
 	reset()
 	Transition.hide_transition()
+	
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
 
 func reset():
 	secret = ""
