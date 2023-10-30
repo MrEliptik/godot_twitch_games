@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 auth.txt
 config.cfg
+build/*
+!release.py
