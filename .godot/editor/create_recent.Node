@@ -1,9 +1,9 @@
 ColorRect
+Label
 AnimationPlayer
 GPUParticles2D
 CollisionPolygon2D
 Sprite2D
-Label
 CanvasLayer
 TextureRect
 CollisionShape2D
