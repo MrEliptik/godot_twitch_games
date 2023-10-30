@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ci0uohxhthwfw"]
+[gd_scene load_steps=7 format=3 uid="uid://ci0uohxhthwfw"]
 
 [ext_resource type="Script" path="res://scenes/ui/scripts/selection.gd" id="1_58emc"]
 [ext_resource type="PackedScene" uid="uid://hc88uh4mv3bl" path="res://scenes/ui/selection_button.tscn" id="1_b3pkf"]
+[ext_resource type="PackedScene" uid="uid://ckx4fpsndvy62" path="res://scenes/games/numbermind/numbermind.tscn" id="3_a4oh0"]
+[ext_resource type="PackedScene" uid="uid://b78rc3fjm3juq" path="res://scenes/games/cannon/cannon.tscn" id="3_jr4xa"]
 
 [sub_resource type="Gradient" id="Gradient_e174d"]
 offsets = PackedFloat32Array(0, 0.986486)
@@ -57,11 +59,13 @@ game_name = "Marble game"
 
 [node name="Button2" parent="GridContainer" instance=ExtResource("1_b3pkf")]
 layout_mode = 2
-disabled = true
+game_name = "Numbermind"
+scene = ExtResource("3_a4oh0")
 
 [node name="Button3" parent="GridContainer" instance=ExtResource("1_b3pkf")]
 layout_mode = 2
-disabled = true
+game_name = "Cannon"
+scene = ExtResource("3_jr4xa")
 
 [node name="Button4" parent="GridContainer" instance=ExtResource("1_b3pkf")]
 layout_mode = 2

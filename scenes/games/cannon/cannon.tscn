@@ -1,0 +1,193 @@
+[gd_scene load_steps=6 format=3 uid="uid://b78rc3fjm3juq"]
+
+[ext_resource type="Script" path="res://scenes/games/cannon/cannon.gd" id="1_ltgiq"]
+[ext_resource type="Texture2D" uid="uid://dsxrbjlditr3y" path="res://shared/visuals/texture_06.png" id="3_6ynuw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wmjjc"]
+size = Vector2(160, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_36dhp"]
+size = Vector2(48, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w614r"]
+size = Vector2(2736, 64)
+
+[node name="Cannon" type="Node2D"]
+script = ExtResource("1_ltgiq")
+
+[node name="BG" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0.352941, 0.262745, 1)
+texture_repeat = 2
+position = Vector2(956, 429)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_6ynuw")
+region_enabled = true
+region_rect = Rect2(0, 0, 3072, 3072)
+
+[node name="JoinNextRound" type="Label" parent="."]
+self_modulate = Color(1, 1, 1, 0.537255)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 944.0
+offset_right = 789.0
+offset_bottom = 1004.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 31
+text = "Type !join to play on the next round!"
+
+[node name="HowToPlay" type="Label" parent="."]
+self_modulate = Color(1, 1, 1, 0.537255)
+offset_left = 61.0
+offset_top = 55.0
+offset_right = 714.0
+offset_bottom = 196.0
+theme_override_font_sizes/font_size = 31
+text = "Type !fire angle power to launch your bullet
+angle: 0-180
+power 0-100"
+
+[node name="ViewerContainer" type="Node2D" parent="."]
+position = Vector2(960, 832)
+
+[node name="Cannon" type="Node2D" parent="."]
+z_index = 4
+position = Vector2(1328, 576)
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Cannon"]
+rotation = -1.5708
+color = Color(0.0392157, 0.0392157, 0.0392157, 1)
+polygon = PackedVector2Array(0, -32, -24, -24, -32, 0, -24, 24, 0, 32, 24, 24, 72, 16, 72, -16, 24, -24)
+
+[node name="Label" type="Label" parent="Cannon"]
+self_modulate = Color(1, 1, 1, 0.537255)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -105.0
+offset_top = 8.0
+offset_right = -52.0
+offset_bottom = 46.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "180°"
+
+[node name="Label2" type="Label" parent="Cannon"]
+self_modulate = Color(1, 1, 1, 0.537255)
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = 8.0
+offset_right = 81.0
+offset_bottom = 46.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "0°"
+
+[node name="Target" type="Area2D" parent="."]
+position = Vector2(720, 400)
+metadata/_edit_group_ = true
+
+[node name="Polygon2D" type="Polygon2D" parent="Target"]
+color = Color(1, 0.85098, 0, 0.34902)
+polygon = PackedVector2Array(-80, -16, 80, -16, 80, 16, -80, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target"]
+shape = SubResource("RectangleShape2D_wmjjc")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Target"]
+position = Vector2(104, 0)
+collision_layer = 2
+collision_mask = 2
+metadata/_edit_group_ = true
+
+[node name="Polygon2D2" type="Polygon2D" parent="Target/StaticBody2D"]
+polygon = PackedVector2Array(-24, -16, 24, -16, 24, 16, -24, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target/StaticBody2D"]
+shape = SubResource("RectangleShape2D_36dhp")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Target"]
+position = Vector2(-104, 0)
+collision_layer = 2
+collision_mask = 2
+metadata/_edit_group_ = true
+
+[node name="Polygon2D2" type="Polygon2D" parent="Target/StaticBody2D2"]
+polygon = PackedVector2Array(-24, -16, 24, -16, 24, 16, -24, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target/StaticBody2D2"]
+shape = SubResource("RectangleShape2D_36dhp")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(960, 1064)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_w614r")
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
+color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+polygon = PackedVector2Array(-1368, -32, -1368, 32, 1368, 32, 1368, -32)
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2(960, 0)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+shape = SubResource("RectangleShape2D_w614r")
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D4"]
+color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+polygon = PackedVector2Array(-1368, -32, -1368, 32, 1368, 32, 1368, -32)
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(1920, 637)
+rotation = 1.5708
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource("RectangleShape2D_w614r")
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D2"]
+color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+polygon = PackedVector2Array(-1368, -32, -1368, 32, 1368, 32, 1368, -32)
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(0, 637)
+rotation = 1.5708
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+shape = SubResource("RectangleShape2D_w614r")
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D3"]
+color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+polygon = PackedVector2Array(-1368, -32, -1368, 32, 1368, 32, 1368, -32)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Waiting" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -362.5
+offset_top = -30.0
+offset_right = 362.5
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 61
+text = "Waiting for players
+Type !join to play"
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="Target" to="." method="_on_target_body_entered"]
