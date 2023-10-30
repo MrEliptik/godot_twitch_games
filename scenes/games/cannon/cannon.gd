@@ -11,7 +11,7 @@ var viewers_to_add: Array = []
 
 @onready var viewer_container: Node2D = $ViewerContainer
 @onready var cannon: Node2D = $Cannon
-@onready var cannon_sprite: Polygon2D = $Cannon/Polygon2D
+@onready var cannon_sprite: Sprite2D = $Cannon/Sprite2D
 @onready var target: Area2D = $Target
 
 @onready var join_next_round: Label = $JoinNextRound
@@ -70,7 +70,7 @@ func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	if not viewers.has(viewer_name): return
 	
 	# Move the viewer
-	viewers[viewer_name].freeze = true
+	viewers[viewer_name].start_move()
 	viewers[viewer_name].set_deferred("global_position", cannon.global_position)
 	
 	# Rotate cannon
@@ -78,9 +78,11 @@ func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	cannon_sprite.rotation_degrees = -angle
 	
 	# Send viewer
-	viewers[viewer_name].set_deferred("freeze", false)
+	viewers[viewer_name].call_deferred("stop_move")
 	var impulse: Vector2 = cannon_sprite.global_transform.x * remap(power, 0.0, 100.0, 0.0, 4000.0)
 	viewers[viewer_name].call_deferred("apply_central_impulse", impulse)
+	
+	cannon.call_deferred("shoot")
 
 func spawn_viewer(viewer_name: String) -> void:
 	if Viewers.is_viewer_joined(viewer_name): return
@@ -140,5 +142,6 @@ func on_streamer_wait(cmd_info : CommandInfo) -> void:
 	change_state(GAME_STATE.WAITING)
 
 func _on_target_body_entered(body: Node2D) -> void:
+	target.activate()
 	change_state(GAME_STATE.WINNER)
 	next_round()

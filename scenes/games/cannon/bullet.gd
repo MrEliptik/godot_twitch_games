@@ -21,3 +21,11 @@ func _ready():
 
 func _process(delta: float) -> void:
 	name_lbl.global_position = global_position + label_offset
+
+func start_move() -> void:
+	freeze = true
+	trail_2d.stop()
+	
+func stop_move() -> void:
+	freeze = false
+	trail_2d.start()
