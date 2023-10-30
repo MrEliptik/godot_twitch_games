@@ -1,6 +1,3 @@
-res://autoload/admin_window.gd
-res://scenes/games/cannon/cannon.gd
-res://scenes/games/marble_race/scripts/marble_race.gd
-res://scenes/games/numbermind/scripts/numbermind.gd
-res://shared/shaders/hexagone.gdshader
+res://scenes/ui/selection.tscn
 res://shared/shaders/circle_transition.gdshader
+res://shared/shaders/hexagone.gdshader
