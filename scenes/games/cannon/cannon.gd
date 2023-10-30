@@ -30,7 +30,8 @@ func _ready() -> void:
 #		state = GAME_STATE.RUNNING
 
 func _process(delta: float) -> void:
-	pass
+	if Input.is_action_just_pressed("ui_cancel"):
+		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
 
 func next_round() -> void:
 	state = GAME_STATE.RUNNING

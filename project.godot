@@ -21,6 +21,7 @@ config/version="0.0.2"
 GiftSingleton="*res://autoload/gift.tscn"
 Viewers="*res://autoload/viewers.gd"
 Transition="*res://autoload/transition.tscn"
+SceneSwitcher="*res://autoload/scene_switcher.gd"
 
 [display]
 

@@ -21,6 +21,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		animation_player.play("move")
+		
+	if Input.is_action_just_pressed("ui_cancel"):
+		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
 
 func spawn_viewer(viewer_name: String) -> void:
 	if Viewers.is_viewer_joined(viewer_name): return
