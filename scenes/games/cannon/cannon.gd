@@ -3,6 +3,7 @@ extends Node2D
 enum GAME_STATE {WAITING, RUNNING, WINNER, PAUSED}
 
 @export var bullet_scene: PackedScene = preload("res://scenes/games/cannon/bullet.tscn")
+@export var default_countdown: float = 3.0
 
 var state: GAME_STATE = GAME_STATE.WAITING
 var viewers: Dictionary = {}
@@ -17,6 +18,7 @@ var viewers_to_add: Array = []
 @onready var join_next_round: Label = $JoinNextRound
 @onready var how_to_play: Label = $HowToPlay
 @onready var waiting: Label = $CanvasLayer/Waiting
+@onready var countdown: Label = $CanvasLayer/Countdown
 
 func _ready() -> void:
 	GiftSingleton.viewer_joined.connect(on_viewer_joined)
@@ -25,11 +27,10 @@ func _ready() -> void:
 	# Command: !fire 90
 	GiftSingleton.add_command("fire", on_viewer_fire, 2, 2)
 	
-	GiftSingleton.add_command("start", on_streamer_start, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
+	GiftSingleton.add_command("start", on_streamer_start, 1, 1, GiftSingleton.PermissionFlag.STREAMER)
 	GiftSingleton.add_command("wait", on_streamer_wait, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
 	
 	change_state(GAME_STATE.WAITING)
-	
 	Transition.hide_transition()
 
 func _process(delta: float) -> void:
@@ -135,8 +136,12 @@ func on_viewer_fire(cmd_info : CommandInfo, arg_arr : PackedStringArray) -> void
 	var power: float = float(arg_arr[1])
 	fire_viewer(cmd_info.sender_data.tags["display-name"], angle, power)
 	
-func on_streamer_start(cmd_info : CommandInfo) -> void:
-	next_round()
+func on_streamer_start(cmd_info : CommandInfo, arg_arr : PackedStringArray) -> void:
+	var countdown_duration: float = default_countdown
+	if not arg_arr.is_empty():
+		if arg_arr[0].is_valid_float():
+			countdown_duration = float(arg_arr[0])
+	countdown.start(countdown_duration)
 	
 func on_streamer_wait(cmd_info : CommandInfo) -> void:
 	change_state(GAME_STATE.WAITING)
@@ -144,4 +149,7 @@ func on_streamer_wait(cmd_info : CommandInfo) -> void:
 func _on_target_body_entered(body: Node2D) -> void:
 	target.activate()
 	change_state(GAME_STATE.WINNER)
+	next_round()
+
+func _on_countdown_finished() -> void:
 	next_round()

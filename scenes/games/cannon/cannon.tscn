@@ -1,20 +1,39 @@
-[gd_scene load_steps=27 format=3 uid="uid://b78rc3fjm3juq"]
+[gd_scene load_steps=31 format=3 uid="uid://b78rc3fjm3juq"]
 
 [ext_resource type="Script" path="res://scenes/games/cannon/cannon.gd" id="1_ltgiq"]
 [ext_resource type="Texture2D" uid="uid://bdi1tdifvrp1s" path="res://shared/visuals/dots_pattern.png" id="2_fqpkg"]
 [ext_resource type="Shader" path="res://shared/shaders/scrolling_uv.gdshader" id="2_nh2hs"]
 [ext_resource type="Texture2D" uid="uid://utdbplyaqefs" path="res://scenes/games/cannon/visuals/cannon.png" id="3_3bg1b"]
 [ext_resource type="Script" path="res://scenes/games/cannon/cannon_object.gd" id="3_l03hg"]
+[ext_resource type="FontFile" uid="uid://dgdhfakf4xbrb" path="res://shared/fonts/MPLUSCodeLatin-Regular.ttf" id="4_2hea8"]
 [ext_resource type="Texture2D" uid="uid://1mqt2073efek" path="res://scenes/games/cannon/visuals/cannon_eye.png" id="4_2s6c1"]
 [ext_resource type="Texture2D" uid="uid://bbovjdifp67lt" path="res://shared/visuals/star.png" id="6_k3ayl"]
 [ext_resource type="Script" path="res://scenes/games/cannon/target.gd" id="6_lcpca"]
 [ext_resource type="Texture2D" uid="uid://cchvfjvud58fn" path="res://scenes/games/cannon/visuals/ring.png" id="6_vo724"]
+[ext_resource type="FontFile" uid="uid://dd1r2fwpg8dya" path="res://shared/fonts/MPLUSCodeLatin-Medium.ttf" id="11_mb3wv"]
+[ext_resource type="FontFile" uid="uid://rmkjlvce4dyv" path="res://shared/fonts/MPLUSCodeLatin-Bold.ttf" id="12_culi7"]
+[ext_resource type="Script" path="res://scenes/games/cannon/countdown.gd" id="13_7e8rs"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tjbxl"]
 shader = ExtResource("2_nh2hs")
 shader_parameter/scroll_dir = Vector2(1, 1)
 shader_parameter/scroll_speed = 0.2
 shader_parameter/color = Color(0.27451, 0.505882, 0.819608, 1)
+
+[sub_resource type="Animation" id="Animation_5gto5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/Eye:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_fd6l8"]
 resource_name = "blink"
@@ -33,25 +52,37 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1), Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1), Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1), Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1), Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1), Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1), Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1), Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_5gto5"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ka713"]
+_data = {
+"RESET": SubResource("Animation_5gto5"),
+"blink": SubResource("Animation_fd6l8")
+}
+
+[sub_resource type="Animation" id="Animation_4naq7"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D/Eye:scale")
+tracks/0/path = NodePath(".:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 1)]
+"values": [Vector2(0.48, 0.48)]
 }
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ka713"]
-_data = {
-"RESET": SubResource("Animation_5gto5"),
-"blink": SubResource("Animation_fd6l8")
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_bkj1e"]
@@ -80,33 +111,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(-2, -2, -2, -2),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(-49.69, 0), Vector2(15.69, 0), Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_4naq7"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.48, 0.48)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vumqp"]
@@ -234,6 +238,7 @@ offset_top = 944.0
 offset_right = 789.0
 offset_bottom = 1004.0
 grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_2hea8")
 theme_override_font_sizes/font_size = 31
 text = "Type !join to play on the next round!"
 
@@ -243,6 +248,7 @@ offset_left = 61.0
 offset_top = 55.0
 offset_right = 714.0
 offset_bottom = 196.0
+theme_override_fonts/font = ExtResource("4_2hea8")
 theme_override_font_sizes/font_size = 31
 text = "Type !fire angle power to launch your bullet
 angle: 0-180
@@ -448,9 +454,41 @@ offset_right = 362.5
 offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("11_mb3wv")
 theme_override_font_sizes/font_size = 61
 text = "Waiting for players
 Type !join to play"
 horizontal_alignment = 1
 
+[node name="Countdown" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -396.0
+offset_top = -82.0
+offset_right = 396.0
+offset_bottom = 83.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(396, 165)
+theme_override_fonts/font = ExtResource("12_culi7")
+theme_override_font_sizes/font_size = 131
+text = "STARTS IN
+10"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("13_7e8rs")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Countdown"]
+self_modulate = Color(0.054902, 0.054902, 0.054902, 0.662745)
+show_behind_parent = true
+layout_mode = 0
+offset_left = -801.0
+offset_top = -527.0
+offset_right = 1667.0
+offset_bottom = 876.0
+
 [connection signal="body_entered" from="Target" to="." method="_on_target_body_entered"]
+[connection signal="finished" from="CanvasLayer/Countdown" to="." method="_on_countdown_finished"]
