@@ -1,10 +1,12 @@
-Trail2D
+CenterContainer
+VBoxContainer
+MarginContainer
+Node2D
 GPUParticles2D
 CollisionShape2D
 Polygon2D
 StaticBody2D
 Area2D
-Node2D
 AnimationPlayer
 ColorRect
 CanvasLayer

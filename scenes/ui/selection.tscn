@@ -1,9 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://ci0uohxhthwfw"]
+[gd_scene load_steps=5 format=3 uid="uid://ci0uohxhthwfw"]
 
 [ext_resource type="Script" path="res://scenes/ui/scripts/selection.gd" id="1_58emc"]
 [ext_resource type="PackedScene" uid="uid://hc88uh4mv3bl" path="res://scenes/ui/selection_button.tscn" id="1_b3pkf"]
-[ext_resource type="PackedScene" uid="uid://ckx4fpsndvy62" path="res://scenes/games/numbermind/numbermind.tscn" id="3_a4oh0"]
-[ext_resource type="PackedScene" uid="uid://b78rc3fjm3juq" path="res://scenes/games/cannon/cannon.tscn" id="3_jr4xa"]
 
 [sub_resource type="Gradient" id="Gradient_e174d"]
 offsets = PackedFloat32Array(0, 0.986486)
@@ -17,12 +15,15 @@ fill_to = Vector2(1, 1)
 metadata/_snap_enabled = true
 
 [node name="Selection" type="Control"]
+clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_58emc")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -36,72 +37,71 @@ texture = SubResource("GradientTexture2D_0j12g")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="OuterMarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -552.0
-offset_top = -267.0
-offset_right = 553.0
-offset_bottom = 268.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 35
-theme_override_constants/v_separation = 35
-columns = 4
 
-[node name="Button" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+[node name="VBoxContainer" type="VBoxContainer" parent="OuterMarginContainer"]
 layout_mode = 2
-game_name = "Marble game"
 
-[node name="Button2" parent="GridContainer" instance=ExtResource("1_b3pkf")]
+[node name="StatusBar" type="MarginContainer" parent="OuterMarginContainer/VBoxContainer"]
 layout_mode = 2
-game_name = "Numbermind"
-scene = ExtResource("3_a4oh0")
-
-[node name="Button3" parent="GridContainer" instance=ExtResource("1_b3pkf")]
-layout_mode = 2
-game_name = "Cannon"
-scene = ExtResource("3_jr4xa")
-
-[node name="Button4" parent="GridContainer" instance=ExtResource("1_b3pkf")]
-layout_mode = 2
-disabled = true
-
-[node name="Button5" parent="GridContainer" instance=ExtResource("1_b3pkf")]
-layout_mode = 2
-disabled = true
-
-[node name="Button6" parent="GridContainer" instance=ExtResource("1_b3pkf")]
-layout_mode = 2
-disabled = true
-
-[node name="Button7" parent="GridContainer" instance=ExtResource("1_b3pkf")]
-layout_mode = 2
-disabled = true
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMarginContainer/VBoxContainer/StatusBar"]
 layout_mode = 2
 
-[node name="StatusLabel" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="StatusLabel" type="Label" parent="OuterMarginContainer/VBoxContainer/StatusBar/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Status:"
 
-[node name="StatusValue" type="Label" parent="MarginContainer/HBoxContainer"]
+[node name="StatusValue" type="Label" parent="OuterMarginContainer/VBoxContainer/StatusBar/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "..."
+
+[node name="CenterContainer" type="CenterContainer" parent="OuterMarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ButtonContainer" type="GridContainer" parent="OuterMarginContainer/VBoxContainer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 35
+theme_override_constants/v_separation = 35
+columns = 4
+
+[node name="Button" parent="OuterMarginContainer/VBoxContainer/CenterContainer/ButtonContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+
+[node name="Button2" parent="OuterMarginContainer/VBoxContainer/CenterContainer/ButtonContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+
+[node name="Button3" parent="OuterMarginContainer/VBoxContainer/CenterContainer/ButtonContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+
+[node name="Button4" parent="OuterMarginContainer/VBoxContainer/CenterContainer/ButtonContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+disabled = true
+
+[node name="Button5" parent="OuterMarginContainer/VBoxContainer/CenterContainer/ButtonContainer" instance=ExtResource("1_b3pkf")]
+layout_mode = 2
+disabled = true
+
+[node name="BottomBar" type="MarginContainer" parent="OuterMarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
