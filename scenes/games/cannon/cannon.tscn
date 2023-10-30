@@ -1,21 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b78rc3fjm3juq"]
+[gd_scene load_steps=6 format=3 uid="uid://b78rc3fjm3juq"]
 
 [ext_resource type="Script" path="res://scenes/games/cannon/cannon.gd" id="1_ltgiq"]
-[ext_resource type="Shader" path="res://shared/shaders/hexagone.gdshader" id="1_mcqhy"]
-
-[sub_resource type="Gradient" id="Gradient_knely"]
-offsets = PackedFloat32Array(0, 0.512658, 1)
-colors = PackedColorArray(0.0833, 0.12954, 0.17, 1, 0.34126, 0.511719, 0.367651, 1, 0.782369, 1, 0.923693, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_8uhct"]
-gradient = SubResource("Gradient_knely")
-width = 2500
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2obkb"]
-shader = ExtResource("1_mcqhy")
-shader_parameter/scale = Vector2(2000, 2000)
-shader_parameter/speed_scale = 0.25
-shader_parameter/gradient_map = SubResource("GradientTexture1D_8uhct")
+[ext_resource type="Texture2D" uid="uid://dsxrbjlditr3y" path="res://shared/visuals/texture_06.png" id="3_6ynuw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wmjjc"]
 size = Vector2(160, 32)
@@ -29,18 +15,38 @@ size = Vector2(2736, 64)
 [node name="Cannon" type="Node2D"]
 script = ExtResource("1_ltgiq")
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="BG" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0.352941, 0.262745, 1)
+texture_repeat = 2
+position = Vector2(956, 429)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_6ynuw")
+region_enabled = true
+region_rect = Rect2(0, 0, 3072, 3072)
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.6, 0.6)
+[node name="JoinNextRound" type="Label" parent="."]
+self_modulate = Color(1, 1, 1, 0.537255)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = 944.0
+offset_right = 789.0
+offset_bottom = 1004.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 31
+text = "Type !join to play on the next round!"
 
-[node name="Hexagone" type="ColorRect" parent="ParallaxBackground/ParallaxLayer"]
-material = SubResource("ShaderMaterial_2obkb")
-offset_left = -305.0
-offset_top = -638.0
-offset_right = 2195.0
-offset_bottom = 1862.0
-metadata/_edit_use_anchors_ = true
+[node name="HowToPlay" type="Label" parent="."]
+self_modulate = Color(1, 1, 1, 0.537255)
+offset_left = 61.0
+offset_top = 55.0
+offset_right = 714.0
+offset_bottom = 196.0
+theme_override_font_sizes/font_size = 31
+text = "Type !fire angle power to launch your bullet
+angle: 0-180
+power 0-100"
 
 [node name="ViewerContainer" type="Node2D" parent="."]
 position = Vector2(960, 832)
@@ -51,8 +57,38 @@ position = Vector2(1328, 576)
 metadata/_edit_group_ = true
 
 [node name="Polygon2D" type="Polygon2D" parent="Cannon"]
+rotation = -1.5708
 color = Color(0.0392157, 0.0392157, 0.0392157, 1)
 polygon = PackedVector2Array(0, -32, -24, -24, -32, 0, -24, 24, 0, 32, 24, 24, 72, 16, 72, -16, 24, -24)
+
+[node name="Label" type="Label" parent="Cannon"]
+self_modulate = Color(1, 1, 1, 0.537255)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -105.0
+offset_top = 8.0
+offset_right = -52.0
+offset_bottom = 46.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "180°"
+
+[node name="Label2" type="Label" parent="Cannon"]
+self_modulate = Color(1, 1, 1, 0.537255)
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 56.0
+offset_top = 8.0
+offset_right = 81.0
+offset_bottom = 46.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 25
+text = "0°"
 
 [node name="Target" type="Area2D" parent="."]
 position = Vector2(720, 400)
@@ -134,5 +170,24 @@ shape = SubResource("RectangleShape2D_w614r")
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D3"]
 color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 polygon = PackedVector2Array(-1368, -32, -1368, 32, 1368, 32, 1368, -32)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Waiting" type="Label" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -362.5
+offset_top = -30.0
+offset_right = 362.5
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 61
+text = "Waiting for players
+Type !join to play"
+horizontal_alignment = 1
 
 [connection signal="body_entered" from="Target" to="." method="_on_target_body_entered"]
