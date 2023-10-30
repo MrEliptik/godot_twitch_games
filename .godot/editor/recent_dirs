@@ -1,10 +1,12 @@
+res://shared/shaders
+res://scenes/games/cannon
+res://scenes/games/cannon/visuals
+res://shared/scripts
 E:/
 C:/Users/drathal/godot/projects/godot_twitch_games/scenes/games/cannon
 res://autoload
-res://scenes/games/cannon
 res://scenes/ui/scripts
 res://scenes/ui
-res://shared/shaders
 res://
 res://scenes/games/marble_race/walls
 res://scenes/games/marble_race/walls/scripts
@@ -18,4 +20,3 @@ res://scenes/marble/script
 res://scenes/playground/script
 res://scenes/spawner/scripts
 res://scenes/spawner
-res://scenes/playground
