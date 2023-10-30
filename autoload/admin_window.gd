@@ -10,8 +10,10 @@ func _process(delta):
 	if Input.is_action_just_pressed("admin"):
 		if visible:
 			hide()
+			line_edit.release_focus()
 		else:
 			show()
+			line_edit.grab_focus()
 			
 	if Input.is_action_just_pressed("enter"):
 		send()
@@ -37,6 +39,7 @@ func send() -> void:
 ## SIGNALS
 func _on_close_requested():
 	hide()
+	line_edit.release_focus()
 
 func _on_send_btn_pressed():
 	send()
