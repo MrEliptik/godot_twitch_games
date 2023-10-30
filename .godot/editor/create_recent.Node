@@ -1,4 +1,7 @@
-Trail2D
+Label
+CanvasLayer
+Sprite2D
+TextureRect
 GPUParticles2D
 CollisionShape2D
 Polygon2D
@@ -7,9 +10,6 @@ Area2D
 Node2D
 AnimationPlayer
 ColorRect
-CanvasLayer
-Label
-TextureRect
 GridContainer
 Button
 CollisionPolygon2D
@@ -17,7 +17,6 @@ Path2D
 Line2D
 ParallaxLayer
 ParallaxBackground
-Sprite2D
 RemoteTransform2D
 RigidBody2D
 Node
