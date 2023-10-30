@@ -35,6 +35,10 @@ window/stretch/mode="viewport"
 
 enabled=PackedStringArray("res://addons/gift/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [physics]
 
 2d/physics_engine="Box2D"
