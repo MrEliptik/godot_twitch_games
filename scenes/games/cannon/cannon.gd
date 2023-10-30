@@ -90,6 +90,14 @@ func spawn_viewer(viewer_name: String) -> void:
 #	instance.freeze = true
 	viewer_container.call_deferred("add_child", instance)
 	viewers[viewer_name] = instance
+	await instance.ready
+	instance.position.x += randf_range(-600, 600)
+	push_bullet(instance)
+
+func push_bullet(obj: RigidBody2D) -> void:
+	var push_vec: Vector2 = obj.global_transform.x.rotated(deg_to_rad(randi_range(0, 360)))
+	push_vec *= 650.0
+	obj.apply_central_impulse(push_vec)
 
 func remove_viewer(viewer_name: String) -> void:
 	if not Viewers.is_viewer_joined(viewer_name): return
