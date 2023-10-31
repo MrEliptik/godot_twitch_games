@@ -30,12 +30,18 @@ func _ready() -> void:
 	GiftSingleton.add_command("start", on_streamer_start, 1, 1, GiftSingleton.PermissionFlag.STREAMER)
 	GiftSingleton.add_command("wait", on_streamer_wait, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
 	
+	SignalBus.transparency_toggled.connect(on_transparency_toggled)
+	
 	change_state(GAME_STATE.WAITING)
 	Transition.hide_transition()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
+	
+	#TODO: Move to a global shortcut script and/or to command window
+	if Input.is_action_just_pressed("transparent"):
+		SignalBus.emit_transparency_toggled(not get_viewport().transparent_bg)
 
 func change_state(new_state: GAME_STATE) -> void:
 	state = new_state
@@ -153,3 +159,8 @@ func _on_target_body_entered(body: Node2D) -> void:
 
 func _on_countdown_finished() -> void:
 	next_round()
+
+func on_transparency_toggled(transparent: bool) -> void:
+	for node in get_tree().get_nodes_in_group("Background"):
+		node.visible = not transparent
+		get_viewport().transparent_bg = transparent

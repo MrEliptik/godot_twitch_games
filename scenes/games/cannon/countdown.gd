@@ -6,6 +6,7 @@ var tween: Tween
 var tween_count: Tween
 
 func _ready() -> void:
+	visible = true
 	modulate.a = 0.0
 
 func _process(delta: float) -> void:

@@ -9,12 +9,19 @@ var active: bool = false
 
 func _ready():
 	GiftSingleton.add_command("guess", on_guess_made, 1, 1)
+	
+	SignalBus.transparency_toggled.connect(on_transparency_toggled)
+	
 	reset()
 	Transition.hide_transition()
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
+		
+	#TODO: Move to a global shortcut script and/or to command window
+	if Input.is_action_just_pressed("transparent"):
+		SignalBus.emit_transparency_toggled(not get_viewport().transparent_bg)
 
 func reset():
 	secret = ""
@@ -57,3 +64,8 @@ func run_guess(viewer: String, guess: String) -> void:
 
 func on_guess_made(cmd_info: CommandInfo, args : PackedStringArray) -> void:
 	run_guess(cmd_info.sender_data.tags["display-name"], args[0])
+
+func on_transparency_toggled(transparent: bool) -> void:
+	for node in get_tree().get_nodes_in_group("Background"):
+		node.visible = not transparent
+		get_viewport().transparent_bg = transparent
