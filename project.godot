@@ -20,6 +20,7 @@ config/version="0.0.3"
 
 GiftSingleton="*res://autoload/gift.tscn"
 Viewers="*res://autoload/viewers.gd"
+SignalBus="*res://autoload/signal_bus.gd"
 Transition="*res://autoload/transition.tscn"
 AdminWindow="*res://autoload/admin_window.tscn"
 SceneSwitcher="*res://autoload/scene_switcher.gd"
