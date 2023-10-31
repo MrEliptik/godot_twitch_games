@@ -212,14 +212,14 @@ size = Vector2(2736, 64)
 [node name="Cannon" type="Node2D"]
 script = ExtResource("1_ltgiq")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." groups=["Background"]]
 offset_left = -211.0
 offset_top = -198.0
 offset_right = 2088.0
 offset_bottom = 1242.0
 color = Color(0.384314, 0.6, 0.894118, 1)
 
-[node name="BG" type="Sprite2D" parent="."]
+[node name="BG" type="Sprite2D" parent="." groups=["Background"]]
 texture_repeat = 2
 material = SubResource("ShaderMaterial_tjbxl")
 position = Vector2(956, 429)
@@ -461,6 +461,7 @@ Type !join to play"
 horizontal_alignment = 1
 
 [node name="Countdown" type="Label" parent="CanvasLayer"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

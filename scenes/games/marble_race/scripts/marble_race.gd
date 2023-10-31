@@ -16,6 +16,8 @@ func _ready() -> void:
 	GiftSingleton.viewer_left.connect(on_viewer_left)
 	GiftSingleton.user_left_chat.connect(on_viewer_left_chat)
 
+	SignalBus.transparency_toggled.connect(on_transparency_toggled)
+
 	Transition.hide_transition()
 
 func _process(delta: float) -> void:
@@ -24,6 +26,10 @@ func _process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("ui_cancel"):
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
+		
+	#TODO: Move to a global shortcut script and/or to command window
+	if Input.is_action_just_pressed("transparent"):
+		SignalBus.emit_transparency_toggled(not get_viewport().transparent_bg)
 
 func spawn_viewer(viewer_name: String) -> void:
 	if Viewers.is_viewer_joined(viewer_name): return
@@ -56,3 +62,8 @@ func on_viewer_left(viewer_name: String) -> void:
 
 func on_viewer_left_chat(sender_data: SenderData) -> void:
 	remove_viewer(sender_data.user)
+
+func on_transparency_toggled(transparent: bool) -> void:
+	for node in get_tree().get_nodes_in_group("Background"):
+		node.visible = not transparent
+		get_viewport().transparent_bg = transparent

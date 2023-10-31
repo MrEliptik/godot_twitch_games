@@ -146,7 +146,7 @@ point_count = 13
 [node name="MarbleRace" type="Node2D"]
 script = ExtResource("1_a3unp")
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." groups=["Background"]]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.6, 0.6)
