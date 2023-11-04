@@ -4,6 +4,7 @@ enum GAME_STATE {WAITING, RUNNING, WINNER, PAUSED}
 
 @export var bullet_scene: PackedScene = preload("res://scenes/games/cannon/bullet.tscn")
 @export var default_countdown: float = 3.0
+@export var minimum_distance: float = 300.0
 
 var state: GAME_STATE = GAME_STATE.WAITING
 var viewers: Dictionary = {}
@@ -69,9 +70,11 @@ func next_round() -> void:
 
 func change_positions() -> void:
 	cannon.global_position = Vector2(randf_range(150, 1800), randf_range(400, 900))
-	target.global_position = Vector2(randf_range(150, 1800), randf_range(100, 900))
+	while true:
+		target.global_position = Vector2(randf_range(150, 1800), randf_range(100, 900))
+		if target.global_position.distance_to(cannon.global_position) > minimum_distance:
+			break
 	target.rotation_degrees = randf_range(0.0, 360.0)
-	change_state(GAME_STATE.RUNNING)
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	if not viewers.has(viewer_name): return
