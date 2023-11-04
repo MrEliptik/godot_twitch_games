@@ -3,6 +3,8 @@ extends Node2D
 enum GAME_STATE {WAITING, RUNNING, WINNER, PAUSED}
 
 @export var bullet_scene: PackedScene = preload("res://scenes/games/cannon/bullet.tscn")
+@export var default_countdown: float = 3.0
+@export var minimum_distance: float = 300.0
 
 var state: GAME_STATE = GAME_STATE.WAITING
 var viewers: Dictionary = {}
@@ -17,6 +19,7 @@ var viewers_to_add: Array = []
 @onready var join_next_round: Label = $JoinNextRound
 @onready var how_to_play: Label = $HowToPlay
 @onready var waiting: Label = $CanvasLayer/Waiting
+@onready var countdown: Label = $CanvasLayer/Countdown
 
 func _ready() -> void:
 	GiftSingleton.viewer_joined.connect(on_viewer_joined)
@@ -25,16 +28,21 @@ func _ready() -> void:
 	# Command: !fire 90
 	GiftSingleton.add_command("fire", on_viewer_fire, 2, 2)
 	
-	GiftSingleton.add_command("start", on_streamer_start, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
+	GiftSingleton.add_command("start", on_streamer_start, 1, 1, GiftSingleton.PermissionFlag.STREAMER)
 	GiftSingleton.add_command("wait", on_streamer_wait, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
 	
-	change_state(GAME_STATE.WAITING)
+	SignalBus.transparency_toggled.connect(on_transparency_toggled)
 	
+	change_state(GAME_STATE.WAITING)
 	Transition.hide_transition()
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
+	
+	#TODO: Move to a global shortcut script and/or to command window
+	if Input.is_action_just_pressed("transparent"):
+		SignalBus.emit_transparency_toggled(not get_viewport().transparent_bg)
 
 func change_state(new_state: GAME_STATE) -> void:
 	state = new_state
@@ -62,9 +70,11 @@ func next_round() -> void:
 
 func change_positions() -> void:
 	cannon.global_position = Vector2(randf_range(150, 1800), randf_range(400, 900))
-	target.global_position = Vector2(randf_range(150, 1800), randf_range(100, 900))
+	while true:
+		target.global_position = Vector2(randf_range(150, 1800), randf_range(100, 900))
+		if target.global_position.distance_to(cannon.global_position) > minimum_distance:
+			break
 	target.rotation_degrees = randf_range(0.0, 360.0)
-	change_state(GAME_STATE.RUNNING)
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	if not viewers.has(viewer_name): return
@@ -135,8 +145,12 @@ func on_viewer_fire(cmd_info : CommandInfo, arg_arr : PackedStringArray) -> void
 	var power: float = float(arg_arr[1])
 	fire_viewer(cmd_info.sender_data.tags["display-name"], angle, power)
 	
-func on_streamer_start(cmd_info : CommandInfo) -> void:
-	next_round()
+func on_streamer_start(cmd_info : CommandInfo, arg_arr : PackedStringArray) -> void:
+	var countdown_duration: float = default_countdown
+	if not arg_arr.is_empty():
+		if arg_arr[0].is_valid_float():
+			countdown_duration = float(arg_arr[0])
+	countdown.start(countdown_duration)
 	
 func on_streamer_wait(cmd_info : CommandInfo) -> void:
 	change_state(GAME_STATE.WAITING)
@@ -145,3 +159,11 @@ func _on_target_body_entered(body: Node2D) -> void:
 	target.activate()
 	change_state(GAME_STATE.WINNER)
 	next_round()
+
+func _on_countdown_finished() -> void:
+	next_round()
+
+func on_transparency_toggled(transparent: bool) -> void:
+	for node in get_tree().get_nodes_in_group("Background"):
+		node.visible = not transparent
+		get_viewport().transparent_bg = transparent

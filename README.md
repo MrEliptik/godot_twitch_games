@@ -4,9 +4,17 @@ Collection of small chat controlled games for [Twitch](https://twitch.tv/mrelipt
 
 ## 👨‍💻 How to contribute
 
-If you want to contribute, please open an issue before, or join my [Discord](https://discord.gg/83nFRPTP6t) to discuss it!
+You can report bugs, fix issues, open proposals for new features and even make entire games if you wish!
 
-I'm open to PR for fixes or improvements.
+- **🐛 Bugs**: Describe as best as you can what happened. Don't hesitate to include error messages and screenshots if relevant.
+
+- **✨ New feature/idea**: Open an issue describing what you want and discuss it with others.
+
+- **📝 Existing issue**: Comment it to let others know you're working on it!
+
+- **🎮 New game**: Please open an issue before working on the game, to discuss the idea.
+At the moment, there's no template to create new games, so you'll have to look at the existing games for inspiration. 
+You can look at the [projects](https://github.com/MrEliptik/godot_twitch_games/projects?query=is%3Aopen) to see if a similar game exist already.
 
 ## 🤼 Contributors
 

@@ -14,12 +14,13 @@ config/name="godot_twitch_games"
 run/main_scene="res://scenes/ui/selection.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.png"
-config/version="0.0.3"
+config/version="0.0.4"
 
 [autoload]
 
 GiftSingleton="*res://autoload/gift.tscn"
 Viewers="*res://autoload/viewers.gd"
+SignalBus="*res://autoload/signal_bus.gd"
 Transition="*res://autoload/transition.tscn"
 AdminWindow="*res://autoload/admin_window.tscn"
 SceneSwitcher="*res://autoload/scene_switcher.gd"
@@ -28,6 +29,7 @@ SceneSwitcher="*res://autoload/scene_switcher.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/transparent=true
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/subwindows/embed_subwindows=false
@@ -48,6 +50,11 @@ admin={
 enter={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194309,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+transparent={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194332,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 
