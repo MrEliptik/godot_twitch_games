@@ -77,7 +77,9 @@ func change_positions() -> void:
 	target.rotation_degrees = randf_range(0.0, 360.0)
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
-	if not viewers.has(viewer_name): return
+	if not viewers.has(viewer_name):
+		await spawn_viewer(viewer_name)
+		fire_viewer(viewer_name, angle, power)
 	
 	# Move the viewer
 	viewers[viewer_name].start_move()
@@ -94,7 +96,7 @@ func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	
 	cannon.call_deferred("shoot")
 
-func spawn_viewer(viewer_name: String) -> void:
+func spawn_viewer(viewer_name: String) -> RigidBody2D:
 	if Viewers.is_viewer_joined(viewer_name): return
 	Viewers.add_viewer(viewer_name)
 	var instance: RigidBody2D = bullet_scene.instantiate()
@@ -105,6 +107,7 @@ func spawn_viewer(viewer_name: String) -> void:
 	await instance.ready
 	instance.position.x += randf_range(-600, 600)
 	push_bullet(instance)
+	return instance
 
 func push_bullet(obj: RigidBody2D) -> void:
 	var push_vec: Vector2 = obj.global_transform.x.rotated(deg_to_rad(randi_range(0, 360)))
