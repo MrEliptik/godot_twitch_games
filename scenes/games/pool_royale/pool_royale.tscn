@@ -1,10 +1,24 @@
-[gd_scene load_steps=9 format=3 uid="uid://c75i61yyvkd1e"]
+[gd_scene load_steps=13 format=3 uid="uid://c75i61yyvkd1e"]
 
 [ext_resource type="Script" path="res://scenes/games/pool_royale/scripts/pool_royale.gd" id="1_x1ler"]
 [ext_resource type="FontFile" uid="uid://dd1r2fwpg8dya" path="res://shared/fonts/MPLUSCodeLatin-Medium.ttf" id="2_87d87"]
+[ext_resource type="Texture2D" uid="uid://cgcns17rkoy3w" path="res://scenes/games/pool_royale/visuals/compass.png" id="2_t7ku6"]
 [ext_resource type="FontFile" uid="uid://rmkjlvce4dyv" path="res://shared/fonts/MPLUSCodeLatin-Bold.ttf" id="3_2fwka"]
 [ext_resource type="PackedScene" uid="uid://cowkp06pmwewa" path="res://scenes/games/pool_royale/bumper.tscn" id="3_x2hen"]
 [ext_resource type="Script" path="res://scenes/games/cannon/countdown.gd" id="4_ilfop"]
+[ext_resource type="PackedScene" uid="uid://c8bdqqhg6e1u8" path="res://scenes/games/pool_royale/moving_object.tscn" id="6_5228q"]
+
+[sub_resource type="Gradient" id="Gradient_131dc"]
+offsets = PackedFloat32Array(0.163347, 0.860558)
+colors = PackedColorArray(3.65794e-06, 0.57621, 0.441327, 1, 5.65536e-07, 0.396844, 0.217027, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wkl7s"]
+gradient = SubResource("Gradient_131dc")
+width = 960
+height = 540
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8bwd"]
 size = Vector2(1442, 64)
@@ -18,12 +32,17 @@ size = Vector2(2698, 480)
 [node name="PoolRoyale" type="Node2D"]
 script = ExtResource("1_x1ler")
 
-[node name="BG" type="ColorRect" parent="." groups=["Background"]]
-offset_left = -149.0
-offset_top = -161.0
-offset_right = 2066.0
-offset_bottom = 1201.0
-color = Color(0.635294, 0.639216, 0.541176, 1)
+[node name="BG" type="TextureRect" parent="." groups=["Background"]]
+offset_left = -120.0
+offset_top = -32.0
+offset_right = 2032.0
+offset_bottom = 1112.0
+texture = SubResource("GradientTexture2D_wkl7s")
+
+[node name="Compass" type="Sprite2D" parent="." groups=["Background"]]
+self_modulate = Color(1, 1, 1, 0.631373)
+position = Vector2(960, 540)
+texture = ExtResource("2_t7ku6")
 
 [node name="ViewerContainer" type="Node2D" parent="."]
 
@@ -35,10 +54,11 @@ metadata/_edit_group_ = true
 shape = SubResource("RectangleShape2D_s8bwd")
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D2"]
-color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+color = Color(0.533333, 0.262745, 0.0470588, 1)
 polygon = PackedVector2Array(-720, -32, -720, 32, 720, 32, 720, -32)
 
 [node name="Direction" type="Label" parent="StaticBody2D2"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -63,10 +83,11 @@ metadata/_edit_group_ = true
 shape = SubResource("RectangleShape2D_s8bwd")
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D5"]
-color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+color = Color(0.533333, 0.262745, 0.0470588, 1)
 polygon = PackedVector2Array(-720, -32, -720, 32, 720, 32, 720, -32)
 
 [node name="Direction" type="Label" parent="StaticBody2D5"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -92,10 +113,11 @@ metadata/_edit_group_ = true
 shape = SubResource("RectangleShape2D_m3ik3")
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D3"]
-color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+color = Color(0.533333, 0.262745, 0.0470588, 1)
 polygon = PackedVector2Array(-488, -32, -488, 32, 488, 32, 488, -32)
 
 [node name="Direction" type="Label" parent="StaticBody2D3"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -122,10 +144,11 @@ metadata/_edit_group_ = true
 shape = SubResource("RectangleShape2D_m3ik3")
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D4"]
-color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+color = Color(0.533333, 0.262745, 0.0470588, 1)
 polygon = PackedVector2Array(-488, -32, -488, 32, 488, 32, 488, -32)
 
 [node name="Direction" type="Label" parent="StaticBody2D4"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -174,6 +197,27 @@ shape = SubResource("RectangleShape2D_n5f53")
 position = Vector2(2276, 568)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_n5f53")
+
+[node name="MovingObject" parent="." instance=ExtResource("6_5228q")]
+position = Vector2(760, 192)
+speed = 2.0
+metadata/_edit_group_ = true
+
+[node name="RemoteTransform2D" parent="MovingObject/Path2D/PathFollow2D" index="0"]
+remote_path = NodePath("../../../Bumper")
+
+[node name="Bumper" parent="MovingObject" instance=ExtResource("3_x2hen")]
+
+[node name="MovingObject2" parent="." instance=ExtResource("6_5228q")]
+position = Vector2(1168, 896)
+rotation = 3.14159
+speed = 2.0
+metadata/_edit_group_ = true
+
+[node name="RemoteTransform2D" parent="MovingObject2/Path2D/PathFollow2D" index="0"]
+remote_path = NodePath("../../../Bumper")
+
+[node name="Bumper" parent="MovingObject2" instance=ExtResource("3_x2hen")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -228,3 +272,6 @@ offset_bottom = 876.0
 
 [connection signal="body_entered" from="DeathArea" to="." method="_on_death_area_body_entered"]
 [connection signal="finished" from="CanvasLayer/Countdown" to="." method="_on_countdown_finished"]
+
+[editable path="MovingObject"]
+[editable path="MovingObject2"]

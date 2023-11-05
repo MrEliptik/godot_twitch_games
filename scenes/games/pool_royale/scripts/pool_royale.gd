@@ -173,4 +173,5 @@ func _on_death_area_body_entered(body: Node2D) -> void:
 	
 	if check_players_left() <= 1:
 		# TODO: announce winner
+		print("WINNER: ", viewers.keys()[0])
 		reset()

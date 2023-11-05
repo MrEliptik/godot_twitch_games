@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8bdqqhg6e1u8"]
+
+[ext_resource type="Script" path="res://scenes/games/pool_royale/scripts/moving_object.gd" id="1_n36s7"]
+
+[sub_resource type="Curve2D" id="Curve2D_mi5ag"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 408, 0)
+}
+point_count = 2
+
+[node name="MovingObject" type="Node2D"]
+script = ExtResource("1_n36s7")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_mi5ag")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Path2D/PathFollow2D"]

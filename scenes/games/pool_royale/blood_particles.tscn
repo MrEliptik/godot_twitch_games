@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://hec8wudnbuq4"]
+
+[ext_resource type="Texture2D" uid="uid://cfpjhc5aje482" path="res://shared/visuals/circle_96.png" id="1_oi5nm"]
+[ext_resource type="Script" path="res://shared/scripts/self_freeing_particles.gd" id="2_xw74y"]
+
+[sub_resource type="Gradient" id="Gradient_02vuy"]
+offsets = PackedFloat32Array(0, 0.25974, 0.666667, 1)
+colors = PackedColorArray(0.520333, 0, 0.00212887, 1, 0.926579, 0, 0.208648, 1, 0.433786, 0, 0.0571041, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4akvp"]
+gradient = SubResource("Gradient_02vuy")
+
+[sub_resource type="Curve" id="Curve_3u8wg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_p8new"]
+curve = SubResource("Curve_3u8wg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vyr0a"]
+lifetime_randomness = 0.34
+emission_shape = 2
+emission_sphere_radius = 15.0
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.1
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_p8new")
+color_ramp = SubResource("GradientTexture1D_4akvp")
+
+[node name="BloodParticles" type="GPUParticles2D"]
+amount = 110
+process_material = SubResource("ParticleProcessMaterial_vyr0a")
+texture = ExtResource("1_oi5nm")
+lifetime = 10.5
+script = ExtResource("2_xw74y")

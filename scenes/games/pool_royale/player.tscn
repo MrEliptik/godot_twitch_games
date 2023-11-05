@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://hlw4yacya1ae"]
+[gd_scene load_steps=8 format=3 uid="uid://hlw4yacya1ae"]
 
 [ext_resource type="Script" path="res://scenes/games/cannon/bullet.gd" id="1_0j7s7"]
 [ext_resource type="Script" path="res://addons/trail_2d/trail_2d.gd" id="2_qafb8"]
@@ -10,21 +10,6 @@ bounce = 0.62
 [sub_resource type="Curve" id="Curve_i8bl6"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
-
-[sub_resource type="Curve" id="Curve_nqjmr"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_b736v"]
-curve = SubResource("Curve_nqjmr")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f5wr3"]
-lifetime_randomness = 0.2
-particle_flag_disable_z = true
-gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
-scale_curve = SubResource("CurveTexture_b736v")
 
 [sub_resource type="Gradient" id="Gradient_ql0u4"]
 offsets = PackedFloat32Array(0.587097, 0.658065)
@@ -47,6 +32,8 @@ collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_v2wev")
 gravity_scale = 0.0
 continuous_cd = 2
+max_contacts_reported = 3
+contact_monitor = true
 can_sleep = false
 linear_damp = 1.05
 script = ExtResource("1_0j7s7")
@@ -75,19 +62,15 @@ width_curve = SubResource("Curve_i8bl6")
 script = ExtResource("2_qafb8")
 length = 32
 
-[node name="Trail" type="GPUParticles2D" parent="."]
-visible = false
-amount = 100
-process_material = SubResource("ParticleProcessMaterial_f5wr3")
-texture = SubResource("GradientTexture2D_tw6su")
-lifetime = 0.5
-
 [node name="Arrow" type="Polygon2D" parent="."]
 visible = false
 polygon = PackedVector2Array(0, -8, 64, -8, 64, -24, 104, 0, 64, 24, 64, 8, 0, 8)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
 texture = SubResource("GradientTexture2D_tw6su")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_yegct")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
