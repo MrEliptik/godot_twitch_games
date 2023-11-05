@@ -4,12 +4,12 @@ Collection of small chat controlled games for [Twitch](https://twitch.tv/mrelipt
 
 ## 🦺 Projects & descriptions
 
-| Icon |  Tittle | Description | Status |
-:-----:|:-------:|:-----------:|:------:|
-<img src="scenes/games/cannon/game_icon.png" width="64px"/>| [cannon](scenes/games/cannon) | Find the right angle and power to reach the target | WIP 🛠
-<img src="scenes/games/numbermind/game_icon.png" width="64px"/>| [numbermind](scenes/games/numbermind) | Guess the number | WIP 🛠
-<img src="scenes/games/marble_race/game_icon.png" width="64px"/>| [marble_race](scenes/games/marble_race) | Marble race game | WIP 🛠
-<img src="scenes/games/pool_royale/game_icon.png" width="64px"/>| [pool_royale](scenes/games/pool_royale) | Pool style game where you must be the last one standing | WIP 🛠
+| Icon |  Game sources |  Project  | Description | Status |
+:-----:|:-------:|:------:|:-----------:|:------:|
+<img src="scenes/games/cannon/game_icon.png" width="64px"/>| [cannon](scenes/games/cannon) | [Cannon project](https://github.com/users/MrEliptik/projects/2/views/1) | Find the right angle and power to reach the target | WIP 🛠
+<img src="scenes/games/numbermind/game_icon.png" width="64px"/>| [numbermind](scenes/games/numbermind) | [No project yet]() | Guess the number | WIP 🛠
+<img src="scenes/games/marble_race/game_icon.png" width="64px"/>| [marble_race](scenes/games/marble_race) | [Marble project](https://github.com/users/MrEliptik/projects/1/views/1) | Marble race game | WIP 🛠
+<img src="scenes/games/pool_royale/game_icon.png" width="64px"/>| [pool_royale](scenes/games/pool_royale) | [Pool royale project](https://github.com/users/MrEliptik/projects/8/views/1) | Pool style game where you must be the last one standing | WIP 🛠
 
 ## 👨‍💻 How to contribute
 
