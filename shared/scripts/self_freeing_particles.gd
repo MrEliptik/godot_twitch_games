@@ -15,6 +15,9 @@ func _ready() -> void:
 			max_lifetime = child_lifetime
 		child.emitting = true
 	
+	# TODO: remove when we can use the signal finished
+	max_lifetime *= 4
+	
 	var timer = get_tree().create_timer(max_lifetime)
 	timer.timeout.connect(on_timer_timeout)
 
