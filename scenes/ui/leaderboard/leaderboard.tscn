@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvagpyorfvqm1"]
+
+[ext_resource type="FontFile" uid="uid://rmkjlvce4dyv" path="res://shared/fonts/MPLUSCodeLatin-Bold.ttf" id="1_dvxsl"]
+[ext_resource type="Script" path="res://scenes/ui/leaderboard/scripts/leaderboard.gd" id="1_njybv"]
+[ext_resource type="PackedScene" uid="uid://co5cnp123u7di" path="res://scenes/ui/leaderboard/leaderboard_entry.tscn" id="3_2ijv5"]
+
+[node name="Leaderboard" type="VBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+offset_right = 405.0
+offset_bottom = 964.0
+script = ExtResource("1_njybv")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_dvxsl")
+theme_override_font_sizes/font_size = 31
+text = "SCORES"
+horizontal_alignment = 1
+
+[node name="Entry" parent="." instance=ExtResource("3_2ijv5")]
+layout_mode = 2

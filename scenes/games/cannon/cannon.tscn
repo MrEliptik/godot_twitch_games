@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b78rc3fjm3juq"]
+[gd_scene load_steps=32 format=3 uid="uid://b78rc3fjm3juq"]
 
 [ext_resource type="Script" path="res://scenes/games/cannon/cannon.gd" id="1_ltgiq"]
 [ext_resource type="Texture2D" uid="uid://bdi1tdifvrp1s" path="res://shared/visuals/dots_pattern.png" id="2_fqpkg"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scenes/games/cannon/cannon_object.gd" id="3_l03hg"]
 [ext_resource type="FontFile" uid="uid://dgdhfakf4xbrb" path="res://shared/fonts/MPLUSCodeLatin-Regular.ttf" id="4_2hea8"]
 [ext_resource type="Texture2D" uid="uid://1mqt2073efek" path="res://scenes/games/cannon/visuals/cannon_eye.png" id="4_2s6c1"]
+[ext_resource type="PackedScene" uid="uid://bvagpyorfvqm1" path="res://scenes/ui/leaderboard/leaderboard.tscn" id="5_kpnpe"]
 [ext_resource type="Texture2D" uid="uid://bbovjdifp67lt" path="res://shared/visuals/star.png" id="6_k3ayl"]
 [ext_resource type="Script" path="res://scenes/games/cannon/target.gd" id="6_lcpca"]
 [ext_resource type="Texture2D" uid="uid://cchvfjvud58fn" path="res://scenes/games/cannon/visuals/ring.png" id="6_vo724"]
@@ -213,10 +214,10 @@ size = Vector2(2736, 64)
 script = ExtResource("1_ltgiq")
 
 [node name="ColorRect" type="ColorRect" parent="." groups=["Background"]]
-offset_left = -211.0
-offset_top = -198.0
-offset_right = 2088.0
-offset_bottom = 1242.0
+offset_left = -200.0
+offset_top = -178.0
+offset_right = 2099.0
+offset_bottom = 1262.0
 color = Color(0.384314, 0.6, 0.894118, 1)
 
 [node name="BG" type="Sprite2D" parent="." groups=["Background"]]
@@ -253,6 +254,12 @@ theme_override_font_sizes/font_size = 31
 text = "Type !fire angle power to launch your bullet
 angle: 0-180
 power 0-100"
+
+[node name="Leaderboard" parent="." instance=ExtResource("5_kpnpe")]
+offset_left = 1460.0
+offset_top = 52.0
+offset_right = 1865.0
+offset_bottom = 1016.0
 
 [node name="ViewerContainer" type="Node2D" parent="."]
 position = Vector2(960, 832)
