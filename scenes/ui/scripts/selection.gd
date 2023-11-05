@@ -2,7 +2,10 @@ extends Control
 
 @onready var button_container = %ButtonContainer
 @onready var status_value: Label = %StatusValue
+@onready var version_btn: LinkButton = $VersionBtn
+
 @onready var games: Array = GamesManager.new().get_games()
+@onready var update_checker = UpdateChecker.new()
 
 var button_scene = preload("res://scenes/ui/selection_button.tscn")
 
@@ -17,6 +20,10 @@ var status_messages = {
 }
 
 func _ready() -> void:
+	add_child(update_checker)
+	update_checker.get_latest_version()
+	update_checker.release_parsed.connect(on_released_parsed)
+	
 	GiftSingleton.status.connect(on_status_changed)
 
 	# when we connect to late to get the last status, we pull the last status that was emited
@@ -45,3 +52,12 @@ func on_btn_pressed(scene: PackedScene) -> void:
 
 func on_status_changed(status_id: int) -> void:
 	status_value.text = status_messages[GiftSingleton.STATUS.keys()[status_id]]
+
+func on_released_parsed(release: Dictionary) -> void:
+	print("release: ", release["version"])
+	
+	if release["new"]:
+		version_btn.text = "New version available: " + release["version"]
+	else:
+		version_btn.text = "You have the latest version: " + release["version"]
+	version_btn.uri = release["url"]
