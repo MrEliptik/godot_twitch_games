@@ -77,7 +77,8 @@ func change_positions() -> void:
 	target.rotation_degrees = randf_range(0.0, 360.0)
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
-	if not viewers.has(viewer_name): return
+	if not viewers.has(viewer_name):
+		spawn_viewer(viewer_name)
 	
 	# Move the viewer
 	viewers[viewer_name].start_move()
