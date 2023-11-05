@@ -1,0 +1,192 @@
+[gd_scene load_steps=10 format=3 uid="uid://cowkp06pmwewa"]
+
+[ext_resource type="Script" path="res://scenes/games/pool_royale/scripts/bumper.gd" id="1_4p51t"]
+[ext_resource type="Texture2D" uid="uid://dqv8ak6b655g1" path="res://scenes/games/pool_royale/visuals/bumper.png" id="2_bmo7b"]
+[ext_resource type="Texture2D" uid="uid://dujt0pqa667ll" path="res://scenes/games/pool_royale/visuals/eye.png" id="3_87hmu"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7xqbf"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h43ga"]
+radius = 52.4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sx8nu"]
+radius = 60.2
+
+[sub_resource type="Animation" id="Animation_awp30"]
+resource_name = "bump"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.3),
+"transitions": PackedFloat32Array(-2, -2, -2, -2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.3, 1.3), Vector2(0.8, 0.8), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/RightEye:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.025, 0.075, 0.15, 0.275),
+"transitions": PackedFloat32Array(-2, -2, -2, -2),
+"update": 0,
+"values": [Vector2(0.3125, 0.3125), Vector2(0.527, 0.527), Vector2(0.242, 0.242), Vector2(0.3125, 0.3125)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/RightEye/Pupil:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.25),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -8.24), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/LeftEye:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.3),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector2(0.3125, 0.3125), Vector2(0.202, 0.202), Vector2(0.3125, 0.3125)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D/LeftEye/Pupil:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.3),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 9.185), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_agaeq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/RightEye:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.3125, 0.3125)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/RightEye/Pupil:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/LeftEye:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.3125, 0.3125)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D/LeftEye/Pupil:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4q1bh"]
+_data = {
+"RESET": SubResource("Animation_agaeq"),
+"bump": SubResource("Animation_awp30")
+}
+
+[node name="Bumper" type="StaticBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_7xqbf")
+script = ExtResource("1_4p51t")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_h43ga")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_sx8nu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 3
+texture = ExtResource("2_bmo7b")
+
+[node name="RightEye" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(15, -4)
+scale = Vector2(0.3125, 0.3125)
+texture = ExtResource("3_87hmu")
+
+[node name="Pupil" type="Sprite2D" parent="Sprite2D/RightEye"]
+self_modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.4375, 0.4375)
+texture = ExtResource("3_87hmu")
+
+[node name="LeftEye" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(-15, -4)
+scale = Vector2(0.3125, 0.3125)
+texture = ExtResource("3_87hmu")
+
+[node name="Pupil" type="Sprite2D" parent="Sprite2D/LeftEye"]
+self_modulate = Color(0, 0, 0, 1)
+scale = Vector2(0.4375, 0.4375)
+texture = ExtResource("3_87hmu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_4q1bh")
+}
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
