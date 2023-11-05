@@ -1,3 +1,5 @@
+res://scenes/ui/leaderboard
+res://scenes/ui/leaderboard/scripts
 res://autoload
 res://scenes/games/cannon
 C:/Users/Victor/Documents/dev/GAMEDEV/godot_twitch_games/build/win
@@ -18,5 +20,3 @@ res://scenes/marble
 res://scenes/gift_test
 res://scenes/marble/script
 res://scenes/playground/script
-res://scenes/spawner/scripts
-res://scenes/spawner
