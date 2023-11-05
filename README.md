@@ -6,10 +6,10 @@ Collection of small chat controlled games for [Twitch](https://twitch.tv/mrelipt
 
 | Icon |  Tittle | Description | Status |
 :-----:|:-------:|:-----------:|:------:|
-![](scenes/games/cannon/game_icon.png)| [cannon](scenes/games/cannon) | Find the right angle and power to reach the target | WIP 🛠
-![](scenes/games/numbermind/game_icon.png)| [numbermind](scenes/games/numbermind) | Guess the number | WIP 🛠
-![](scenes/games/marble_race/game_icon.png)| [marble_race](scenes/games/marble_race) | Marble race game | WIP 🛠
-![](scenes/games/pool_royale/game_icon.png)| [pool_royale](scenes/games/pool_royale) | Pool style game where you must be the last one standing | WIP 🛠
+<img src="scenes/games/cannon/game_icon.png" width="64px"/>| [cannon](scenes/games/cannon) | Find the right angle and power to reach the target | WIP 🛠
+<img src="scenes/games/numbermind/game_icon.png" width="64px"/>| [numbermind](scenes/games/numbermind) | Guess the number | WIP 🛠
+<img src="scenes/games/marble_race/game_icon.png" width="64px"/>| [marble_race](scenes/games/marble_race) | Marble race game | WIP 🛠
+<img src="scenes/games/pool_royale/game_icon.png" width="64px"/>| [pool_royale](scenes/games/pool_royale) | Pool style game where you must be the last one standing | WIP 🛠
 
 ## 👨‍💻 How to contribute
 
