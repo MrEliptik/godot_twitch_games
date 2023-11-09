@@ -4,3 +4,4 @@ auth.txt
 config.cfg
 build/*
 !release.py
+!release_local.py
