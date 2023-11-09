@@ -8,6 +8,7 @@ extends Node2D
 #
 #var str: String = ""
 
+@onready var game_config_manager := GameConfigManager.new(self)
 @onready var viewer_container: Node2D = $ViewerContainer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -23,10 +24,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept"):
 		animation_player.play("move")
-		
+
 	if Input.is_action_just_pressed("ui_cancel"):
+		game_config_manager.save_config()
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
-		
+
 	#TODO: Move to a global shortcut script and/or to command window
 	if Input.is_action_just_pressed("transparent"):
 		SignalBus.emit_transparency_toggled(not get_viewport().transparent_bg)

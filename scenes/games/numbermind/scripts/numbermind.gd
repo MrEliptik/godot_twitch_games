@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var game_config_manager := GameConfigManager.new(self)
 @onready var results = $Results
 @onready var instructions = $Instructions
 
@@ -9,16 +10,17 @@ var active: bool = false
 
 func _ready():
 	GiftSingleton.add_command("guess", on_guess_made, 1, 1)
-	
+
 	SignalBus.transparency_toggled.connect(on_transparency_toggled)
-	
+
 	reset()
 	Transition.hide_transition()
-	
+
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
+		game_config_manager.save_config()
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
-		
+
 	#TODO: Move to a global shortcut script and/or to command window
 	if Input.is_action_just_pressed("transparent"):
 		SignalBus.emit_transparency_toggled(not get_viewport().transparent_bg)
@@ -35,15 +37,15 @@ func reset():
 func run_guess(viewer: String, guess: String) -> void:
 	var res: String = ""
 	var correct: int = 0
-	
+
 	print("length: %d" % len(guess))
-	
+
 	for c in guess:
 		if not c in "0123456789":
 			results.append_text("[b]%s:[/b]\t<Invalid Guess>\n" % viewer)
 			results.scroll_to_line(results.get_line_count())
 			return
-	
+
 	for i in min(len(secret), len(guess)):
 		if guess[i] == secret[i]:
 			res += "[color=green]%s[/color]" % guess[i]
