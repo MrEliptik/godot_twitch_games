@@ -114,7 +114,7 @@ func push_bullet(obj: RigidBody2D) -> void:
 func remove_viewer(viewer_name: String) -> void:
 	if not Viewers.is_viewer_joined(viewer_name): return
 	Viewers.remove_viewer(viewer_name)
-
+	if not viewers.has(viewer_name): return
 	viewers[viewer_name].queue_free()
 	viewers.erase(viewer_name)
 
