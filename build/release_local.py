@@ -39,7 +39,7 @@ def export_template(template, build_path, build_nb):
         print("    |---> Template folder already exists: " + build_path_template)
 
     # "C:\Program Files\Godot\Godot_v4_1_3-stable_win64_exe\Godot_v4.1.3-stable_win64.exe" --headless --export-release "Linux/X11" /var/builds/project
-    cmd = [godot_path, "-headless", "--export-release", template, os.path.join(build_path_template, exe_name)]
+    cmd = [godot_path, "--headless", "--export-release", template, os.path.join(build_path_template, exe_name)]
     print("    |---> Executing command: ", cmd)
 
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, encoding='utf-8') as sp:
