@@ -43,6 +43,12 @@ func save_config() -> void:
 ## private
 ##
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		save_config()
+		print("Config saved")
+		get_tree().quit()
+
 
 ## we use the filename to not loose settings when renaming a Scene
 func _get_scene_file_name() -> String:
