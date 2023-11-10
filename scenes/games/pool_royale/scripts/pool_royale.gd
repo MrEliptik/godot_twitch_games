@@ -5,6 +5,7 @@ enum GAME_STATE {WAITING, RUNNING, WINNER, PAUSED}
 @export var player_scene: PackedScene = preload("res://scenes/games/pool_royale/player.tscn")
 @export var default_countdown: float = 3.0
 
+@onready var game_config_manager := GameConfigManager.new(self)
 @onready var viewer_container: Node2D = $ViewerContainer
 @onready var waiting: Label = $CanvasLayer/Waiting
 @onready var countdown: Label = $CanvasLayer/Countdown
