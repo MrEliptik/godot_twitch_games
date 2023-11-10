@@ -9,7 +9,6 @@ var state: GAME_STATE = GAME_STATE.WAITING
 var viewers: Dictionary = {}
 var viewers_to_add: Array = []
 
-@onready var game_config_manager := GameConfigManager.new(self)
 @onready var viewer_container: Node2D = $ViewerContainer
 @onready var waiting: Label = $CanvasLayer/Waiting
 @onready var countdown: Label = $CanvasLayer/Countdown
@@ -17,6 +16,8 @@ var viewers_to_add: Array = []
 #@onready var how_to_play: Label = $HowToPlay
 
 func _ready() -> void:
+	GameConfigManager.load_config()
+
 	GiftSingleton.viewer_joined.connect(on_viewer_joined)
 	GiftSingleton.viewer_left.connect(on_viewer_left)
 	GiftSingleton.user_left_chat.connect(on_viewer_left_chat)
@@ -35,7 +36,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
-		game_config_manager.save_config()
+		GameConfigManager.save_config()
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
 
 	#TODO: Move to a global shortcut script and/or to command window

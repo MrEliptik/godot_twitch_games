@@ -5,7 +5,6 @@ extends Control
 @onready var version_btn: LinkButton = $VersionBtn
 @onready var games: Array = GamesManager.new().get_games()
 @onready var update_checker := UpdateChecker.new()
-@onready var game_config_manager := GameConfigManager.new(self)
 
 var button_scene = preload("res://scenes/ui/selection_button.tscn")
 
@@ -20,6 +19,8 @@ var status_messages = {
 }
 
 func _ready() -> void:
+	GameConfigManager.load_config()
+
 	add_child(update_checker)
 	update_checker.get_latest_version()
 	update_checker.release_parsed.connect(on_released_parsed)
@@ -46,7 +47,7 @@ func _ready() -> void:
 	Transition.hide_transition()
 
 func on_btn_pressed(scene: PackedScene) -> void:
-	game_config_manager.save_config()
+	GameConfigManager.save_config()
 
 	Transition.show_transition()
 	await Transition.done
