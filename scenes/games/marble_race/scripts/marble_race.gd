@@ -34,17 +34,18 @@ func _process(delta: float) -> void:
 		SignalBus.emit_transparency_toggled(not get_viewport().transparent_bg)
 
 func spawn_viewer(viewer_name: String) -> void:
-	if Viewers.is_viewer_joined(viewer_name): return
-	Viewers.add_viewer(viewer_name)
+	if viewer_container.has_node(viewer_name): return
+
 	var instance = marble.instantiate()
+	instance.name = viewer_name
 	instance.viewer_name = viewer_name
 	viewer_container.call_deferred("add_child", instance)
+
 	await instance.ready
 	push_marble(instance)
 
 func remove_viewer(viewer_name: String) -> void:
-	if not Viewers.is_viewer_joined(viewer_name): return
-	Viewers.remove_viewer(viewer_name)
+	if not Viewers.is_joined(viewer_name): return
 
 	for child in viewer_container.get_children():
 		if child.viewer_name != viewer_name: continue
