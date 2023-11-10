@@ -5,12 +5,12 @@ enum GAME_STATE {WAITING, RUNNING, WINNER, PAUSED}
 @export var player_scene: PackedScene = preload("res://scenes/games/pool_royale/player.tscn")
 @export var default_countdown: float = 3.0
 
-@onready var game_config_manager := GameConfigManager.new(self)
+var state: GAME_STATE = GAME_STATE.WAITING
+var viewers_to_add: Array = []
+
 @onready var viewer_container: Node2D = $ViewerContainer
 @onready var waiting: Label = $CanvasLayer/Waiting
 @onready var countdown: Label = $CanvasLayer/Countdown
-#@onready var join_next_round: Label = $JoinNextRound
-#@onready var how_to_play: Label = $HowToPlay
 
 var state: GAME_STATE = GAME_STATE.WAITING
 var viewer_avatars: Dictionary = {}
@@ -18,6 +18,8 @@ var viewer_avatars: Dictionary = {}
 func _ready() -> void:
 	Viewers.viewer_joined.connect(on_viewer_joined)
 	Viewers.viewer_left.connect(on_viewer_left)
+
+	GameConfigManager.load_config()
 
 	# Command: !fire 90
 	GiftSingleton.add_command("fire", on_viewer_fire, 2, 2)
@@ -34,7 +36,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
-		game_config_manager.save_config()
+		GameConfigManager.save_config()
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
 
 	#TODO: Move to a global shortcut script and/or to command window

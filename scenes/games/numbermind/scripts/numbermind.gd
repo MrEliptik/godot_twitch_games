@@ -1,6 +1,5 @@
 extends Node2D
 
-@onready var game_config_manager := GameConfigManager.new(self)
 @onready var results = $Results
 @onready var instructions = $Instructions
 
@@ -9,6 +8,8 @@ var length: int = 4
 var active: bool = false
 
 func _ready():
+	GameConfigManager.load_config()
+
 	GiftSingleton.add_command("guess", on_guess_made, 1, 1)
 
 	SignalBus.transparency_toggled.connect(on_transparency_toggled)
@@ -18,7 +19,7 @@ func _ready():
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
-		game_config_manager.save_config()
+		GameConfigManager.save_config()
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
 
 	#TODO: Move to a global shortcut script and/or to command window
