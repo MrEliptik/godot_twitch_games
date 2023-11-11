@@ -2,6 +2,7 @@ extends Gift
 
 signal viewer_joined(name)
 signal viewer_left(name)
+signal viewers_reset()
 signal status(status_id: STATUS)
 
 enum STATUS {
@@ -70,6 +71,7 @@ func start() -> void:
 
 	add_command("join", add_viewer)
 	add_command("leave", remove_viewer)
+	add_command("reset", reset_viewers)
 
 	# These two commands can be executed by everyone
 #	add_command("helloworld", hello_world)
@@ -147,3 +149,6 @@ func add_viewer(cmd_info: CommandInfo) -> void:
 
 func remove_viewer(cmd_info: CommandInfo) -> void:
 	viewer_left.emit(cmd_info.sender_data.tags["display-name"])
+
+func reset_viewers(_cmd_info: CommandInfo) -> void:
+	viewers_reset.emit()

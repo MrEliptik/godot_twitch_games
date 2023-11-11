@@ -14,8 +14,10 @@ var state: GAME_STATE = GAME_STATE.WAITING
 var viewer_avatars: Dictionary = {}
 
 func _ready() -> void:
-	Viewers.viewer_joined.connect(on_viewer_joined)
-	Viewers.viewer_left.connect(on_viewer_left)
+	Viewers.viewer_added.connect(on_viewer_joined)
+	Viewers.viewer_removed.connect(on_viewer_left)
+	Viewers.reset_viewers.connect(on_streamer_reset)
+	Viewers.open()
 
 	GameConfigManager.load_config()
 
@@ -25,7 +27,6 @@ func _ready() -> void:
 
 	GiftSingleton.add_command("start", on_streamer_start, 1, 1, GiftSingleton.PermissionFlag.STREAMER)
 	GiftSingleton.add_command("wait", on_streamer_wait, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
-	GiftSingleton.add_command("reset", on_streamer_reset, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
 
 	SignalBus.transparency_toggled.connect(on_transparency_toggled)
 
@@ -35,6 +36,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		GameConfigManager.save_config()
+		Viewers.close()
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
 
 	#TODO: Move to a global shortcut script and/or to command window
@@ -56,6 +58,7 @@ func change_state(new_state: GAME_STATE) -> void:
 func next_round() -> void:
 	change_state(GAME_STATE.RUNNING)
 	spawn_viewers()
+
 	Viewers.lock()
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
@@ -77,7 +80,7 @@ func spawn_viewer(viewer_name: String) -> void:
 	push_bullet(instance)
 
 func spawn_viewers() -> void:
-	for viewer in Viewers.viewers:
+	for viewer in Viewers.viewers_active:
 		spawn_viewer(viewer)
 
 func despawn_viewer(viewer_name: String) -> void:
@@ -119,8 +122,7 @@ func on_streamer_wait(_cmd_info : CommandInfo) -> void:
 	Viewers.unlock()
 	spawn_viewers()
 
-func on_streamer_reset(_cmd_info : CommandInfo) -> void:
-	Viewers.reset()
+func on_streamer_reset() -> void:
 	Viewers.unlock()
 
 func _on_countdown_finished() -> void:
@@ -133,12 +135,9 @@ func on_transparency_toggled(transparent: bool) -> void:
 
 func _on_death_area_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("Players"): return
+	Viewers.dead(body.viewer_name)
 
-	# TODO: Add a dead list
-	print("KILLED: ", body.viewer_name)
-	Viewers.remove(body.viewer_name)
-
-	if Viewers.count_active() == 1:
-		# TODO: announce winner
-		print("WINNER: ", viewer_container.keys()[0])
-		Viewers.reset()
+	#if Viewers.count_active() == 1:
+	#	# TODO: announce winner
+	#	print("WINNER: ", viewer_container.keys()[0])
+	#	Viewers.reset()

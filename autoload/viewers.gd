@@ -3,35 +3,72 @@ extends Node
 ##
 ## handles viewers for all games
 ##
+## !join will add viewers to the list[br]
+## !leave or leaving the chat will remove viewers from the list
 
+## viewer is active
 signal viewer_active(name)
+
+## viewer is waiting
 signal viewer_waiting(name)
+
+## viewer is dead
 signal viewer_dead(name)
 
+## viewer joined the game
 signal viewer_added(name)
+
+## viewer left the game
 signal viewer_removed(name)
 
-signal winner(name)
+## all viewers reset
+signal reset_viewers
 
+## only one active viewer left
+signal last_viewer_active(name)
+
+
+## all active viewers
 var viewers_active: Array = []
+
+## all waiting viewers
 var viewers_waiting: Array = []
+
+## all dead viewers
 var viewers_dead: Array = []
 
+## is current game is locked
 var locked: bool = false
+
+## when closed no interaction is possible
+var closed: bool = true
+
+## turn on / off debug messages and test at statup
 var debug: bool = true
 
 
 func _ready():
-	GiftSingleton.viewer_joined.connect(on_viewer_joined)
-	GiftSingleton.viewer_left.connect(on_viewer_left)
-	GiftSingleton.user_left_chat.connect(on_viewer_left_chat)
-	
-	if debug: test()
+	GiftSingleton.viewer_joined.connect(_on_viewer_joined)
+	GiftSingleton.viewer_left.connect(_on_viewer_left)
+	GiftSingleton.user_left_chat.connect(_on_viewer_left_chat)
+	GiftSingleton.viewers_reset.connect(_on_reset_viewers)
+
+	if debug: _test()
 
 
 ##
 ## public
 ##
+
+
+## open all list so that viwers can join
+func open() -> void:
+	closed = false
+
+
+## close all lists
+func close() -> void:
+	closed = true
 
 
 ## viewers who join when locked will be addd to the waiting list
@@ -41,52 +78,58 @@ func lock() -> void:
 	if debug: prints("Viewers.lock()")
 
 
-## all waiting viewers now move to the viewers list (active)
+## all waiting and dead viewers move to the active list
 func unlock() -> void:
+	locked = false
+	closed = false
+
 	var tmp_waiting = viewers_waiting
 	viewers_active.append_array(viewers_waiting)
 	viewers_waiting.clear()
-
-	for viewer in tmp_waiting:
-		viewer_active.emit(viewer)
 
 	var tmp_dead = viewers_dead
 	viewers_active.append_array(viewers_dead)
 	viewers_dead.clear()
 
+	if debug: _print_viewers("unlock()")
+
+	for viewer in tmp_waiting:
+		viewer_active.emit(viewer)
+
 	for viewer in tmp_dead:
 		viewer_active.emit(viewer)
 
-	locked = false
 
-	if debug: print_viewers("unlock()")
-
-
-func get_winner() -> Variant:
+## return the last active viewer or null then there are more
+func get_last_active_viewer() -> Variant:
 	if viewers_active.size() == 1:
-		if debug: prints("Viewers.get_winner():", viewers_active[0])
+		if debug: prints("Viewers.get_last_active_viewer():", viewers_active[0])
 		return viewers_active[0]
 	else:
-		if debug: prints("Viewers.get_winner(): null")
+		if debug: prints("Viewers.get_last_active_viewer(): null")
 		return null
 
 
+## count all viewers in any state
 func count() -> int:
 	return viewers_active.size() + viewers_waiting.size() + viewers_dead.size()
 
 
+## count of all active players
 func count_active() -> int:
 	return viewers_active.size()
 
 
+## count of all viewers in the waiting list
 func count_waiting() -> int:
 	return viewers_waiting.size()
 
 
+## count of all viewers in the dead list
 func count_dead() -> int:
 	return viewers_dead.size()
-	
-	
+
+
 ## resets all state
 func reset() -> void:
 	var tmp_active = viewers_active
@@ -97,7 +140,7 @@ func reset() -> void:
 	viewers_waiting.clear()
 	viewers_dead.clear()
 
-	if debug: print_viewers("reset()")
+	if debug: _print_viewers("reset()")
 
 	for viewer in tmp_active:
 		viewer_removed.emit(viewer)
@@ -107,58 +150,78 @@ func reset() -> void:
 
 	for viewer in tmp_dead:
 		viewer_removed.emit(viewer)
-	
 
+	reset_viewers.emit()
+
+
+## add viewer to the active list
 func add(viewer_name: String) -> void:
+	if closed:
+		return
+
 	if not is_joined(viewer_name):
 		viewer_added.emit(viewer_name)
 
 	if locked:
 		viewers_waiting.append(viewer_name)
-		if debug: print_viewers("add(%s)" % viewer_name)
+		if debug: _print_viewers("add(%s)" % viewer_name)
 		viewer_waiting.emit(viewer_name)
 	else:
 		viewers_active.append(viewer_name)
-		if debug: print_viewers("add(%s)" % viewer_name)
+		if debug: _print_viewers("add(%s)" % viewer_name)
 		viewer_active.emit(viewer_name)
 
 
-
+## move viewer to the dead list if its active
 func dead(viewer_name: String) -> void:
-	viewers_active.erase(viewer_name)
-	viewers_waiting.erase(viewer_name)
+	if closed:
+		return
+		
+	if not is_joined(viewer_name) or not is_active(viewer_name):
+		return
 
+	viewers_active.erase(viewer_name)
 	viewers_dead.append(viewer_name)
 
-	if debug: print_viewers("dead(%s)" % viewer_name)
+	if debug: _print_viewers("dead(%s)" % viewer_name)
+
+	check_last_active_viewer()
 
 
+## remove viewer from all lists
 func remove(viewer_name: String) -> void:
 	viewers_active.erase(viewer_name)
 	viewers_waiting.erase(viewer_name)
 	viewers_dead.erase(viewer_name)
-	
-	if debug: print_viewers("remove(%s)" % viewer_name)
+
+	check_last_active_viewer()
+
+	if debug: _print_viewers("remove(%s)" % viewer_name)
 
 	viewer_removed.emit(viewer_name)
 
 
+## is viewer in any list
 func is_joined(viewer_name: String) -> bool:
 	return is_active(viewer_name) or is_waiting(viewer_name) or is_dead(viewer_name)
 
 
+## is viewer in the waiting list
 func is_waiting(viewer_name: String) -> bool:
 	return viewer_name in viewers_waiting
 
 
+## is viewer in the active list
 func is_active(viewer_name: String) -> bool:
 	return viewer_name in viewers_active
 
 
+## is viewer in the dead list
 func is_dead(viewer_name: String) -> bool:
 	return viewer_name in viewers_dead
 
 
+## get the list where viewer is in
 func get_viewer_list(viewer_name: String) -> Variant:
 	var list = null
 
@@ -177,42 +240,72 @@ func get_viewer_list(viewer_name: String) -> Variant:
 ##
 
 
-func on_viewer_left(viewer_name: String) -> void:
-	if debug: prints('Viewers.on_viewer_left():', viewer_name)
+func check_last_active_viewer() -> void:
+	if count_active() != 1: return
+
+	last_viewer_active.emit(viewers_active[0])
+
+
+##  viewer left the game - remove from all lists
+func _on_viewer_left(viewer_name: String) -> void:
+	if debug: prints('Viewers._on_viewer_left():', viewer_name)
 
 	remove(viewer_name)
 
 
-func on_viewer_left_chat(sender_data: SenderData) -> void:
-	if debug: prints('Viewers.on_viewer_left_chat():', sender_data.user)
+## viewer left the chat - remove from all lists
+func _on_viewer_left_chat(sender_data: SenderData) -> void:
+	if debug: prints('Viewers._on_viewer_left_chat():', sender_data.user)
 
 	remove(sender_data.user)
 
 
-func on_viewer_joined(viewer_name: String) -> void:
+## viewer joined the game - add to the active/waiting list
+func _on_viewer_joined(viewer_name: String) -> void:
 	if is_joined(viewer_name):
 		return
 
-	if debug: prints('Viewers.on_viewer_joined():', viewer_name)
+	if debug: prints('Viewers._on_viewer_joined():', viewer_name)
 
 	add(viewer_name)
+
+
+## reset all viewers
+func _on_reset_viewers() -> void:
+	reset()
+
 
 ##
 ## test
 ##
 
-func print_viewers(msg: String) -> void:
-	prints("Viewers."+msg+": -> active",  Viewers.viewers_active, "-> waiting", Viewers.viewers_waiting, "-> dead", Viewers.viewers_dead)
+
+## debug output
+func _print_viewers(msg: String) -> void:
+	prints("Viewers."+msg+": active:",  Viewers.viewers_active, "waiting:", Viewers.viewers_waiting, "dead:", Viewers.viewers_dead)
 
 
-func test() -> void:
-	prints("---> test Viewers autoload")
+func _print_debug(msg: String, type: String = "DEBUG") -> void:
+	prints("Viewers.%s(" % type , msg,") <-----")
 
-	viewer_added.connect(func(n: String): prints("EVENT: viewer_added:", n))
-	viewer_removed.connect(func(n: String): prints("EVENT: viewer_removed:", n))
 
+## some quick tests to see if the lists are working
+func _test() -> void:
+	prints("")
+	prints("---> TEST: Viewers autoload <---")
+
+	viewer_added.connect(_print_debug.bind("EVENT:viewer_added"))
+	viewer_removed.connect(_print_debug.bind("EVENT:viewer_removed"))
+
+	viewer_active.connect(_print_debug.bind("EVENT:viewer_removed"))
+	viewer_waiting.connect(_print_debug.bind("EVENT:viewer_waiting"))
+	viewer_dead.connect(_print_debug.bind("EVENT:viewer_dead"))
+
+	last_viewer_active.connect(_print_debug.bind("EVENT:last_viewer_active"))
+
+	open()
 	test_viewer_lists(0, 0, 0)
-	
+
 	add("viewer1")
 	test_viewer_lists(1, 0, 0)
 
@@ -250,13 +343,25 @@ func test() -> void:
 	add("viewer6")
 	add("viewer7")
 	dead("viewer7")
-	assert(get_winner() == "viewer6")
-	
+	assert(get_last_active_viewer() == "viewer6")
 
-	prints("---> test OK")
+	reset()
+	close()
+	test_viewer_lists(0, 0, 0)
+
+	#viewer_added.disconnect(_print_debug)
+	#viewer_removed.disconnect(_print_debug)
+
+	#viewer_active.disconnect(_print_debug)
+	#viewer_waiting.disconnect(_print_debug)
+	#viewer_dead.disconnect(_print_debug)
+
+	prints("---> TESTL OK <---")
+	prints("")
 
 
-func test_viewer_lists(active_count: int, waiting_count: int, dead_count: int) -> void:	
+## test the viewer lists count
+func test_viewer_lists(active_count: int, waiting_count: int, dead_count: int) -> void:
 	assert(viewers_active.size() == active_count)
 	assert(viewers_waiting.size() == waiting_count)
 	assert(viewers_dead.size() == dead_count)
