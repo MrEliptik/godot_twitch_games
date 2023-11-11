@@ -22,7 +22,7 @@ signal viewer_added(name)
 signal viewer_removed(name)
 
 ## all viewers reset
-signal reset_viewers
+signal viewers_reset
 
 ## only one active viewer left
 signal last_viewer_active(name)
@@ -65,10 +65,14 @@ func _ready():
 func open() -> void:
 	closed = false
 
+	if debug: prints("Viewers.open()")
+
 
 ## close all lists
 func close() -> void:
 	closed = true
+
+	if debug: prints("Viewers.close()")
 
 
 ## viewers who join when locked will be addd to the waiting list
@@ -151,7 +155,7 @@ func reset() -> void:
 	for viewer in tmp_dead:
 		viewer_removed.emit(viewer)
 
-	reset_viewers.emit()
+	viewers_reset.emit()
 
 
 ## add viewer to the active list

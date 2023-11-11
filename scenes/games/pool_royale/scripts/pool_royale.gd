@@ -14,11 +14,13 @@ var state: GAME_STATE = GAME_STATE.WAITING
 var viewer_avatars: Dictionary = {}
 
 func _ready() -> void:
-	Viewers.viewer_added.connect(on_viewer_joined)
-	Viewers.viewer_removed.connect(on_viewer_left)
-	Viewers.reset_viewers.connect(on_streamer_reset)
-	Viewers.open()
-
+	Viewers.viewer_active.connect(on_viewer_active)
+	Viewers.viewer_waiting.connect(on_viewer_waiting)
+	Viewers.viewer_dead.connect(on_viewer_dead)
+	Viewers.last_viewer_active.connect(on_last_viewer_active)
+	Viewers.viewer_removed.connect(on_viewer_removed)
+	Viewers.viewers_reset.connect(on_viewers_reset)
+	
 	GameConfigManager.load_config()
 
 	# Command: !fire 90
@@ -36,7 +38,6 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
 		GameConfigManager.save_config()
-		Viewers.close()
 		SceneSwitcher.change_scene_to(SceneSwitcher.selection_scene, true, null)
 
 	#TODO: Move to a global shortcut script and/or to command window
@@ -48,18 +49,17 @@ func change_state(new_state: GAME_STATE) -> void:
 	match state:
 		GAME_STATE.WAITING:
 			waiting.visible = true
+			Viewers.open()
+			Viewers.unlock()
 		GAME_STATE.RUNNING:
 			waiting.visible = false
+			Viewers.lock()
 		GAME_STATE.WINNER:
-			pass
+			waiting.visible = false
+			Viewers.lock()
 		GAME_STATE.PAUSED:
-			pass
-
-func next_round() -> void:
-	change_state(GAME_STATE.RUNNING)
-	spawn_viewers()
-
-	Viewers.lock()
+			waiting.visible = false
+			Viewers.lock()
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	if not Viewers.is_active(viewer_name): return
@@ -79,10 +79,6 @@ func spawn_viewer(viewer_name: String) -> void:
 	instance.global_position = Vector2(randf_range(150, 1850), randf_range(100, 900))
 	push_bullet(instance)
 
-func spawn_viewers() -> void:
-	for viewer in Viewers.viewers_active:
-		spawn_viewer(viewer)
-
 func despawn_viewer(viewer_name: String) -> void:
 	if not viewer_avatars.has(viewer_name): return
 	viewer_avatars[viewer_name].queue_free()
@@ -95,11 +91,42 @@ func push_bullet(obj: RigidBody2D) -> void:
 
 ##### SIGNALS #####
 
-func on_viewer_joined(viewer_name: String) -> void:
+func on_viewer_active(viewer_name: String) -> void:
 	spawn_viewer(viewer_name)
 
-func on_viewer_left(viewer_name: String) -> void:
+func on_viewer_waiting(viewer_name: String) -> void:
 	despawn_viewer(viewer_name)
+
+func on_viewer_dead(viewer_name: String) -> void:
+	despawn_viewer(viewer_name)
+
+func on_viewer_removed(viewer_name: String) -> void:
+	despawn_viewer(viewer_name)
+
+func on_viewers_reset() -> void:
+	change_state(GAME_STATE.WAITING)
+
+func on_last_viewer_active() -> void:
+	change_state(GAME_STATE.WINNER)
+
+func _on_countdown_finished() -> void:
+	change_state(GAME_STATE.RUNNING)
+
+func on_transparency_toggled(transparent: bool) -> void:
+	for node in get_tree().get_nodes_in_group("Background"):
+		node.visible = not transparent
+		get_viewport().transparent_bg = transparent
+
+func _on_death_area_body_entered(body: Node2D) -> void:
+	if not body.is_in_group("Players"): return
+	Viewers.dead(body.viewer_name)
+
+	#if Viewers.count_active() == 1:
+	#	# TODO: announce winner
+	#	print("WINNER: ", viewer_container.keys()[0])
+	#	Viewers.reset()
+
+##### COMMANDS #####
 
 func on_viewer_fire(cmd_info : CommandInfo, arg_arr : PackedStringArray) -> void:
 	if state != GAME_STATE.RUNNING: return
@@ -119,25 +146,6 @@ func on_streamer_start(_cmd_info : CommandInfo, arg_arr : PackedStringArray) -> 
 
 func on_streamer_wait(_cmd_info : CommandInfo) -> void:
 	change_state(GAME_STATE.WAITING)
-	Viewers.unlock()
-	spawn_viewers()
 
-func on_streamer_reset() -> void:
-	Viewers.unlock()
 
-func _on_countdown_finished() -> void:
-	next_round()
 
-func on_transparency_toggled(transparent: bool) -> void:
-	for node in get_tree().get_nodes_in_group("Background"):
-		node.visible = not transparent
-		get_viewport().transparent_bg = transparent
-
-func _on_death_area_body_entered(body: Node2D) -> void:
-	if not body.is_in_group("Players"): return
-	Viewers.dead(body.viewer_name)
-
-	#if Viewers.count_active() == 1:
-	#	# TODO: announce winner
-	#	print("WINNER: ", viewer_container.keys()[0])
-	#	Viewers.reset()
