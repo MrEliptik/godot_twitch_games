@@ -6,13 +6,11 @@ enum GAME_STATE {WAITING, RUNNING, WINNER, PAUSED}
 @export var default_countdown: float = 3.0
 
 var state: GAME_STATE = GAME_STATE.WAITING
-var viewers_to_add: Array = []
 
 @onready var viewer_container: Node2D = $ViewerContainer
 @onready var waiting: Label = $CanvasLayer/Waiting
 @onready var countdown: Label = $CanvasLayer/Countdown
 
-var state: GAME_STATE = GAME_STATE.WAITING
 var viewer_avatars: Dictionary = {}
 
 func _ready() -> void:
@@ -59,9 +57,6 @@ func next_round() -> void:
 	change_state(GAME_STATE.RUNNING)
 	spawn_viewers()
 	Viewers.lock()
-
-func check_players_left() -> int:
-	return Viewers.count_active()
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	if not Viewers.is_active(viewer_name): return
@@ -139,11 +134,11 @@ func on_transparency_toggled(transparent: bool) -> void:
 func _on_death_area_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("Players"): return
 
-	print("KILLED: ", body.viewer_name)
 	# TODO: Add a dead list
-	despawn_viewer(body.viewer_name)
+	print("KILLED: ", body.viewer_name)
+	Viewers.remove(body.viewer_name)
 
-	if check_players_left() <= 1:
+	if Viewers.count_active() == 1:
 		# TODO: announce winner
-		print("WINNER: ",Viewers.get_winner())
+		print("WINNER: ", viewer_container.keys()[0])
 		Viewers.reset()
