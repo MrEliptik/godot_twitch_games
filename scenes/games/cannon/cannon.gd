@@ -100,8 +100,8 @@ func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	cannon.call_deferred("shoot")
 
 func spawn_viewer(viewer_name: String) -> RigidBody2D:
-	if Viewers.is_viewer_joined(viewer_name): return
-	Viewers.add_viewer(viewer_name)
+	if viewers.has(viewer_name): return
+
 	var instance: RigidBody2D = bullet_scene.instantiate()
 	instance.viewer_name = viewer_name
 #	instance.freeze = true
@@ -118,8 +118,8 @@ func push_bullet(obj: RigidBody2D) -> void:
 	obj.apply_central_impulse(push_vec)
 
 func remove_viewer(viewer_name: String) -> void:
-	if not Viewers.is_viewer_joined(viewer_name): return
-	Viewers.remove_viewer(viewer_name)
+	if not Viewers.is_joined(viewer_name): return
+	Viewers.remove(viewer_name)
 
 	viewers[viewer_name].queue_free()
 	viewers.erase(viewer_name)
