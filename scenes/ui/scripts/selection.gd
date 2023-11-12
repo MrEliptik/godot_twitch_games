@@ -20,6 +20,7 @@ var status_messages = {
 
 func _ready() -> void:
 	GameConfigManager.load_config()
+	Viewers.close()
 
 	add_child(update_checker)
 	update_checker.get_latest_version()

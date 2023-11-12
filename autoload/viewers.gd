@@ -6,6 +6,8 @@ extends Node
 ## !join will add viewers to the list[br]
 ## !leave or leaving the chat will remove viewers from the list
 
+# TODO: refactor duplication of lists merge and event emit
+
 ## viewer is active
 signal viewer_active(name)
 
@@ -76,26 +78,25 @@ func close() -> void:
 
 
 ## viewers who join when locked will be addd to the waiting list
-func lock() -> void:
+func lock_active() -> void:
 	locked = true
 
-	if debug: prints("Viewers.lock()")
+	if debug: prints("Viewers.lock_active()")
 
 
 ## all waiting and dead viewers move to the active list
-func unlock() -> void:
+func unlock_active() -> void:
 	locked = false
-	closed = false
 
-	var tmp_waiting = viewers_waiting
+	var tmp_waiting = viewers_waiting.duplicate()
 	viewers_active.append_array(viewers_waiting)
 	viewers_waiting.clear()
 
-	var tmp_dead = viewers_dead
+	var tmp_dead = viewers_dead.duplicate()
 	viewers_active.append_array(viewers_dead)
 	viewers_dead.clear()
 
-	if debug: _print_viewers("unlock()")
+	if debug: _print_viewers("unlock_active()")
 
 	for viewer in tmp_waiting:
 		viewer_active.emit(viewer)
@@ -136,9 +137,9 @@ func count_dead() -> int:
 
 ## resets all state
 func reset() -> void:
-	var tmp_active = viewers_active
-	var tmp_waiting = viewers_waiting
-	var tmp_dead = viewers_dead
+	var tmp_active = viewers_active.duplicate()
+	var tmp_waiting = viewers_waiting.duplicate()
+	var tmp_dead = viewers_dead.duplicate()
 
 	viewers_active.clear()
 	viewers_waiting.clear()
@@ -163,8 +164,10 @@ func add(viewer_name: String) -> void:
 	if closed:
 		return
 
-	if not is_joined(viewer_name):
-		viewer_added.emit(viewer_name)
+	if is_joined(viewer_name):
+		return
+
+	viewer_added.emit(viewer_name)
 
 	if locked:
 		viewers_waiting.append(viewer_name)
@@ -180,7 +183,7 @@ func add(viewer_name: String) -> void:
 func dead(viewer_name: String) -> void:
 	if closed:
 		return
-		
+
 	if not is_joined(viewer_name) or not is_active(viewer_name):
 		return
 
@@ -189,6 +192,7 @@ func dead(viewer_name: String) -> void:
 
 	if debug: _print_viewers("dead(%s)" % viewer_name)
 
+	viewer_dead.emit(viewer_name)
 	check_last_active_viewer()
 
 
@@ -203,6 +207,25 @@ func remove(viewer_name: String) -> void:
 	if debug: _print_viewers("remove(%s)" % viewer_name)
 
 	viewer_removed.emit(viewer_name)
+
+
+## send all players to waiting list(dead / active)
+func wait_all() -> void:
+	var tmp_active = viewers_active.duplicate()
+	viewers_waiting.append_array(viewers_active)
+	viewers_active.clear()
+
+	var tmp_dead = viewers_dead.duplicate()
+	viewers_waiting.append_array(viewers_dead)
+	viewers_dead.clear()
+
+	if debug: _print_viewers("wait_all()")
+
+	for viewer in tmp_active:
+		viewer_waiting.emit(viewer)
+
+	for viewer in tmp_dead:
+		viewer_waiting.emit(viewer)
 
 
 ## is viewer in any list
@@ -246,21 +269,16 @@ func get_viewer_list(viewer_name: String) -> Variant:
 
 func check_last_active_viewer() -> void:
 	if count_active() != 1: return
-
-	last_viewer_active.emit(viewers_active[0])
+	last_viewer_active.emit(get_last_active_viewer())
 
 
 ##  viewer left the game - remove from all lists
 func _on_viewer_left(viewer_name: String) -> void:
-	if debug: prints('Viewers._on_viewer_left():', viewer_name)
-
 	remove(viewer_name)
 
 
 ## viewer left the chat - remove from all lists
 func _on_viewer_left_chat(sender_data: SenderData) -> void:
-	if debug: prints('Viewers._on_viewer_left_chat():', sender_data.user)
-
 	remove(sender_data.user)
 
 
@@ -268,8 +286,6 @@ func _on_viewer_left_chat(sender_data: SenderData) -> void:
 func _on_viewer_joined(viewer_name: String) -> void:
 	if is_joined(viewer_name):
 		return
-
-	if debug: prints('Viewers._on_viewer_joined():', viewer_name)
 
 	add(viewer_name)
 
@@ -301,7 +317,7 @@ func _test() -> void:
 	viewer_added.connect(_print_debug.bind("EVENT:viewer_added"))
 	viewer_removed.connect(_print_debug.bind("EVENT:viewer_removed"))
 
-	viewer_active.connect(_print_debug.bind("EVENT:viewer_removed"))
+	viewer_active.connect(_print_debug.bind("EVENT:viewer_active"))
 	viewer_waiting.connect(_print_debug.bind("EVENT:viewer_waiting"))
 	viewer_dead.connect(_print_debug.bind("EVENT:viewer_dead"))
 
@@ -320,21 +336,21 @@ func _test() -> void:
 	remove("viewer1")
 	test_viewer_lists(2, 0, 0)
 
-	lock()
+	lock_active()
 	add("viewer4")
 	test_viewer_lists(2, 1, 0)
 
-	unlock()
+	unlock_active()
 	test_viewer_lists(3, 0, 0)
 
-	lock()
+	lock_active()
 	dead("viewer2")
 	test_viewer_lists(2, 0, 1)
 
 	dead("viewer3")
 	test_viewer_lists(1, 0, 2)
 
-	unlock()
+	unlock_active()
 	test_viewer_lists(3, 0, 0)
 
 	reset()

@@ -4,12 +4,14 @@ enum GAME_STATE {WAITING, RUNNING, WINNER, PAUSED}
 
 @export var player_scene: PackedScene = preload("res://scenes/games/pool_royale/player.tscn")
 @export var default_countdown: float = 3.0
+@export var winner_text: String = "Winner: %s"
 
 var state: GAME_STATE = GAME_STATE.WAITING
 
 @onready var viewer_container: Node2D = $ViewerContainer
 @onready var waiting: Label = $CanvasLayer/Waiting
 @onready var countdown: Label = $CanvasLayer/Countdown
+@onready var winner: Label = $CanvasLayer/Winner
 
 var viewer_avatars: Dictionary = {}
 
@@ -20,7 +22,7 @@ func _ready() -> void:
 	Viewers.last_viewer_active.connect(on_last_viewer_active)
 	Viewers.viewer_removed.connect(on_viewer_removed)
 	Viewers.viewers_reset.connect(on_viewers_reset)
-	
+
 	GameConfigManager.load_config()
 
 	# Command: !fire 90
@@ -48,18 +50,27 @@ func change_state(new_state: GAME_STATE) -> void:
 	state = new_state
 	match state:
 		GAME_STATE.WAITING:
+			prints("GAME_STATE.WAITING")
 			waiting.visible = true
+			winner.visible = false
 			Viewers.open()
-			Viewers.unlock()
+			Viewers.unlock_active()
 		GAME_STATE.RUNNING:
+			prints("GAME_STATE.RUNNING")
 			waiting.visible = false
-			Viewers.lock()
+			winner.visible = false
+			Viewers.lock_active()
 		GAME_STATE.WINNER:
+			prints("GAME_STATE.WINNER")
 			waiting.visible = false
-			Viewers.lock()
+			winner.visible = true
+			Viewers.lock_active()
+			Viewers.wait_all()
 		GAME_STATE.PAUSED:
+			prints("GAME_STATE.PAUSED")
 			waiting.visible = false
-			Viewers.lock()
+			winner.visible = false
+			Viewers.lock_active()
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
 	if not Viewers.is_active(viewer_name): return
@@ -81,6 +92,7 @@ func spawn_viewer(viewer_name: String) -> void:
 
 func despawn_viewer(viewer_name: String) -> void:
 	if not viewer_avatars.has(viewer_name): return
+	prints("despawn", viewer_name)
 	viewer_avatars[viewer_name].queue_free()
 	viewer_avatars.erase(viewer_name)
 
@@ -106,8 +118,14 @@ func on_viewer_removed(viewer_name: String) -> void:
 func on_viewers_reset() -> void:
 	change_state(GAME_STATE.WAITING)
 
-func on_last_viewer_active() -> void:
+func on_last_viewer_active(viewer_name: String) -> void:
+	if state != GAME_STATE.RUNNING: return
+	winner.text = winner_text % (viewer_name)
 	change_state(GAME_STATE.WINNER)
+
+	## TODO: make pretty like start countdown
+	await get_tree().create_timer(5).timeout
+	change_state(GAME_STATE.WAITING)
 
 func _on_countdown_finished() -> void:
 	change_state(GAME_STATE.RUNNING)
@@ -120,11 +138,6 @@ func on_transparency_toggled(transparent: bool) -> void:
 func _on_death_area_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("Players"): return
 	Viewers.dead(body.viewer_name)
-
-	#if Viewers.count_active() == 1:
-	#	# TODO: announce winner
-	#	print("WINNER: ", viewer_container.keys()[0])
-	#	Viewers.reset()
 
 ##### COMMANDS #####
 
