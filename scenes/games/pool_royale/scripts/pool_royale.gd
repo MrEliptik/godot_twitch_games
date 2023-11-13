@@ -25,12 +25,12 @@ func _ready() -> void:
 
 	GameConfigManager.load_config()
 
-	# Command: !fire 90
-	GiftSingleton.add_command("fire", on_viewer_fire, 2, 2)
-	GiftSingleton.add_alias("fire", "f")
+	GiftSingleton.streamer_start.connect(on_streamer_start)
+	GiftSingleton.streamer_wait.connect(on_streamer_wait)
 
-	GiftSingleton.add_command("start", on_streamer_start, 1, 1, GiftSingleton.PermissionFlag.STREAMER)
-	GiftSingleton.add_command("wait", on_streamer_wait, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
+	# Command: !fire 90 100
+	GiftSingleton.add_game_command("fire", on_viewer_fire, 2, 2)
+	GiftSingleton.add_alias("fire", "f")
 
 	SignalBus.transparency_toggled.connect(on_transparency_toggled)
 
@@ -150,14 +150,14 @@ func on_viewer_fire(cmd_info : CommandInfo, arg_arr : PackedStringArray) -> void
 	var power: float = float(arg_arr[1])
 	fire_viewer(cmd_info.sender_data.tags["display-name"], angle, power)
 
-func on_streamer_start(_cmd_info : CommandInfo, arg_arr : PackedStringArray) -> void:
+func on_streamer_start(arg_arr : PackedStringArray) -> void:
 	var countdown_duration: float = default_countdown
 	if not arg_arr.is_empty():
 		if arg_arr[0].is_valid_float():
 			countdown_duration = float(arg_arr[0])
 	countdown.start(countdown_duration)
 
-func on_streamer_wait(_cmd_info : CommandInfo) -> void:
+func on_streamer_wait() -> void:
 	change_state(GAME_STATE.WAITING)
 
 

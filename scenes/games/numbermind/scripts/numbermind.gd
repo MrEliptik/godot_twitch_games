@@ -10,7 +10,7 @@ var active: bool = false
 func _ready():
 	GameConfigManager.load_config()
 
-	GiftSingleton.add_command("guess", on_guess_made, 1, 1)
+	GiftSingleton.add_game_command("guess", on_guess_made, 1, 1)
 
 	SignalBus.transparency_toggled.connect(on_transparency_toggled)
 

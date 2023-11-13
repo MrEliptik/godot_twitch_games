@@ -3,6 +3,10 @@ extends Gift
 signal viewer_joined(name)
 signal viewer_left(name)
 signal viewers_reset()
+
+signal streamer_start(args: Array)
+signal streamer_wait()
+
 signal status(status_id: STATUS)
 
 enum STATUS {
@@ -17,6 +21,8 @@ enum STATUS {
 
 var last_status: = STATUS.NONE
 
+var game_commands: Array = []
+
 var setup_scene: PackedScene = preload("res://scenes/ui/setup.tscn")
 
 
@@ -24,6 +30,23 @@ func _ready() -> void:
 	start()
 
 
+## register a game command
+func add_game_command(command: String, command_callback: Callable, max_args: int = 0, min_args: int = 0, permission: PermissionFlag = PermissionFlag.EVERYONE) -> void:
+	game_commands.append(command)
+	add_command(command, command_callback, max_args, min_args)
+
+
+## remove all game_commands
+func remove_game_commands() -> void:
+	for command in game_commands:
+		purge_command(command)
+	game_commands.clear()
+
+##
+## private
+##
+
+## init chat connection
 func start() -> void:
 	emit_status(STATUS.INIT)
 
@@ -69,19 +92,19 @@ func start() -> void:
 	# This command can only be executed by VIPS/MODS/SUBS/STREAMER
 #	add_command("test", command_test, 0, 0, PermissionFlag.NON_REGULAR)
 
-	add_command("join", add_viewer)
-	add_command("leave", remove_viewer)
-	add_command("reset", reset_viewers)
+	# user commands
+	add_command("join", add_viewer_command)
+	add_command("leave", remove_viewer_command)
 
-	# These two commands can be executed by everyone
-#	add_command("helloworld", hello_world)
-#	add_command("greetme", greet_me)
+	# streamer commands
+	add_command("reset", streamer_reset_command, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
+	add_command("start", streamer_start_command, 2, 0, GiftSingleton.PermissionFlag.STREAMER)
+	add_command("wait", streamer_wait_command, 0, 0, GiftSingleton.PermissionFlag.STREAMER)
 
-	# This command can only be executed by the streamer
-#	add_command("streamer_only", streamer_only, 0, 0, PermissionFlag.STREAMER)
+	#add_command("guess", on_guess_made, 1, 1)
+	#add_command("fire", on_viewer_fire, 2, 2)
+	#add_alias("fire", "f")
 
-	# Command that requires exactly 1 arg.
-#	add_command("greet", greet, 1, 1)
 
 	# Command that prints every arg seperated by a comma (infinite args allowed), at least 2 required
 #	add_command("list", list, -1, 2)
@@ -108,33 +131,21 @@ func emit_status(new_status: STATUS) -> void:
 	status.emit(new_status)
 	last_status = new_status
 
+
 func on_event(type : String, data : Dictionary) -> void:
 	match(type):
 		"channel.follow":
 			print("%s followed your channel!" % data["user_name"])
 
+
 func on_chat(_data : SenderData, _msg : String) -> void:
-	pass
 #	%ChatContainer.put_chat(data, msg)
+	pass
 
-# Check the CommandInfo class for the available info of the cmd_info.
-func command_test(_cmd_info : CommandInfo) -> void:
-	print("A")
-
-func hello_world(_cmd_info : CommandInfo) -> void:
-	chat("HELLO WORLD!")
-
-func streamer_only(_cmd_info : CommandInfo) -> void:
-	chat("Streamer command executed")
 
 func no_permission(_cmd_info : CommandInfo) -> void:
 	chat("NO PERMISSION!")
 
-func greet(_cmd_info : CommandInfo, arg_ary : PackedStringArray) -> void:
-	chat("Greetings, " + arg_ary[0])
-
-func greet_me(cmd_info : CommandInfo) -> void:
-	chat("Greetings, " + cmd_info.sender_data.tags["display-name"] + "!")
 
 func list(_cmd_info : CommandInfo, arg_ary : PackedStringArray) -> void:
 	var msg = ""
@@ -144,11 +155,27 @@ func list(_cmd_info : CommandInfo, arg_ary : PackedStringArray) -> void:
 	msg += arg_ary[arg_ary.size() - 1]
 	chat(msg)
 
-func add_viewer(cmd_info: CommandInfo) -> void:
+
+##
+## custom commands
+##
+
+
+func add_viewer_command(cmd_info: CommandInfo) -> void:
 	viewer_joined.emit(cmd_info.sender_data.tags["display-name"])
 
-func remove_viewer(cmd_info: CommandInfo) -> void:
+
+func remove_viewer_command(cmd_info: CommandInfo) -> void:
 	viewer_left.emit(cmd_info.sender_data.tags["display-name"])
 
-func reset_viewers(_cmd_info: CommandInfo) -> void:
+
+func streamer_reset_command(_cmd_info: CommandInfo) -> void:
 	viewers_reset.emit()
+
+
+func streamer_start_command(_cmd_info: CommandInfo, arg_ary : PackedStringArray = []) -> void:
+	streamer_start.emit(arg_ary)
+
+
+func streamer_wait_command(_cmd_info: CommandInfo) -> void:
+	streamer_wait.emit()
