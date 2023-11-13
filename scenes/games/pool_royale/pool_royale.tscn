@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c75i61yyvkd1e"]
+[gd_scene load_steps=14 format=3 uid="uid://c75i61yyvkd1e"]
 
 [ext_resource type="Script" path="res://scenes/games/pool_royale/scripts/pool_royale.gd" id="1_x1ler"]
 [ext_resource type="FontFile" uid="uid://dd1r2fwpg8dya" path="res://shared/fonts/MPLUSCodeLatin-Medium.ttf" id="2_87d87"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cowkp06pmwewa" path="res://scenes/games/pool_royale/bumper.tscn" id="3_x2hen"]
 [ext_resource type="Script" path="res://scenes/games/cannon/countdown.gd" id="4_ilfop"]
 [ext_resource type="PackedScene" uid="uid://c8bdqqhg6e1u8" path="res://scenes/games/pool_royale/moving_object.tscn" id="6_5228q"]
+[ext_resource type="PackedScene" uid="uid://d1ktqkqvqmhyd" path="res://scenes/ui/viewers_list.tscn" id="8_3hiv4"]
 
 [sub_resource type="Gradient" id="Gradient_131dc"]
 offsets = PackedFloat32Array(0.163347, 0.860558)
@@ -257,6 +258,7 @@ text = "Winner:"
 horizontal_alignment = 1
 
 [node name="Countdown" type="Label" parent="CanvasLayer"]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -285,6 +287,45 @@ offset_left = -801.0
 offset_top = -527.0
 offset_right = 1667.0
 offset_bottom = 876.0
+
+[node name="WaitingList" type="VBoxContainer" parent="CanvasLayer"]
+offset_left = 1612.0
+offset_top = 72.0
+offset_right = 1853.0
+offset_bottom = 1009.0
+
+[node name="Label" type="Label" parent="CanvasLayer/WaitingList"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Waiting"
+horizontal_alignment = 2
+
+[node name="ViewersList" parent="CanvasLayer/WaitingList" instance=ExtResource("8_3hiv4")]
+layout_direction = 3
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.447059)
+theme_override_colors/guide_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 16
+allow_search = false
+
+[node name="DeadList" type="VBoxContainer" parent="CanvasLayer"]
+offset_left = 68.0
+offset_top = 68.0
+offset_right = 309.0
+offset_bottom = 1005.0
+
+[node name="Label" type="Label" parent="CanvasLayer/DeadList"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Dead"
+
+[node name="ViewersList" parent="CanvasLayer/DeadList" instance=ExtResource("8_3hiv4")]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.447059)
+theme_override_colors/guide_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 16
+allow_search = false
+list_type = 2
 
 [connection signal="body_entered" from="DeathArea" to="." method="_on_death_area_body_entered"]
 [connection signal="finished" from="CanvasLayer/Countdown" to="." method="_on_countdown_finished"]

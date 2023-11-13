@@ -12,6 +12,8 @@ var state: GAME_STATE = GAME_STATE.WAITING
 @onready var waiting: Label = $CanvasLayer/Waiting
 @onready var countdown: Label = $CanvasLayer/Countdown
 @onready var winner: Label = $CanvasLayer/Winner
+@onready var waiting_list: VBoxContainer = $CanvasLayer/WaitingList
+@onready var dead_list: VBoxContainer = $CanvasLayer/DeadList
 
 var viewer_avatars: Dictionary = {}
 
@@ -53,23 +55,31 @@ func change_state(new_state: GAME_STATE) -> void:
 			prints("GAME_STATE.WAITING")
 			waiting.visible = true
 			winner.visible = false
+			waiting_list.visible = false
+			dead_list.visible = false
 			Viewers.open()
 			Viewers.unlock_active()
 		GAME_STATE.RUNNING:
 			prints("GAME_STATE.RUNNING")
 			waiting.visible = false
 			winner.visible = false
+			waiting_list.visible = true
+			dead_list.visible = true
 			Viewers.lock_active()
 		GAME_STATE.WINNER:
 			prints("GAME_STATE.WINNER")
 			waiting.visible = false
 			winner.visible = true
+			waiting_list.visible = true
+			dead_list.visible = true
 			Viewers.lock_active()
 			Viewers.wait_all()
 		GAME_STATE.PAUSED:
 			prints("GAME_STATE.PAUSED")
 			waiting.visible = false
 			winner.visible = false
+			waiting_list.visible = false
+			dead_list.visible = false
 			Viewers.lock_active()
 
 func fire_viewer(viewer_name: String, angle: float, power: float) -> void:
