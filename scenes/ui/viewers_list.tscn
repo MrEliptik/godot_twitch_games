@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1ktqkqvqmhyd"]
+
+[ext_resource type="Script" path="res://scenes/ui/scripts/viewers_list.gd" id="1_c80a8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2m381"]
+
+[node name="ViewersList" type="ItemList"]
+custom_minimum_size = Vector2(50, 50)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2m381")
+auto_height = true
+item_count = 2
+item_0/text = "test_viewer"
+item_0/selectable = false
+item_1/text = "viewer_1"
+script = ExtResource("1_c80a8")
