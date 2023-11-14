@@ -26,6 +26,7 @@ func _ready() -> void:
 	update_checker.get_latest_version()
 	update_checker.release_parsed.connect(on_released_parsed)
 
+	GiftSingleton.remove_game_commands()
 	GiftSingleton.status.connect(on_status_changed)
 
 	# when we connect to late to get the last status, we pull the last status that was emited
