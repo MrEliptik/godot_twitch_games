@@ -4,6 +4,8 @@ import zipfile
 import shutil
 import configparser
 from datetime import datetime
+from win32com.client import Dispatch
+import pathlib
 
 godot_path = "C:\Program Files\Godot\Godot_v4_1_3-stable_win64_exe\Godot_v4.1.3-stable_win64.exe"
 gh_cli_path = 'C:\Program Files\GitHub CLI\gh.exe'
@@ -44,7 +46,11 @@ def export_template(template, build_path, build_nb):
 
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, encoding='utf-8') as sp:
         pass
-    print("    |---> Exporting template finshed: ", template)
+    print("    |---> Exporting template finished: ", template)
+
+    match platform:
+        case "win":
+            create_shortcut(os.path.join(build_path_template, exe_name))
 
     # List files to zip
     files_to_zip = []
@@ -82,6 +88,17 @@ def upload_gh(files, build_nb, prerelease=False):
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, encoding='utf-8') as sp:
         for line in sp.stdout:
             print(line.strip())
+
+def create_shortcut(target_path):
+    path = os.path.join(build_path, "twitch_game.exe.lnk")  #This is where the shortcut will be created
+    script_dir = pathlib.Path(__file__).absolute().parent
+    parent_dir = script_dir.parent
+    target = os.path.join(parent_dir, target_path) # directory to which the shortcut is created
+
+    shell = Dispatch('WScript.Shell')
+    shortcut = shell.CreateShortCut(path)
+    shortcut.Targetpath = target
+    shortcut.save()
 
 def main():
     print("########## Export starting ##########")
