@@ -2,7 +2,7 @@
 
 Collection of small chat controlled games for [Twitch](https://twitch.tv/mreliptik).
 
-🤖 Uses Godot [4.1.3](https://godotengine.org/download/archive/4.1.3-stable/)
+🤖 Uses Godot [4.2.1](https://godotengine.org/download/archive/4.2.1-stable/) 
 
 ## 🦺 Projects & descriptions
 
