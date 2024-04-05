@@ -11,6 +11,8 @@ var viewers: Dictionary = {}
 
 var viewers_to_add: Array = []
 
+var player_goal_list: Dictionary = {}
+
 @onready var viewer_container: Node2D = $ViewerContainer
 @onready var cannon: Node2D = $Cannon
 @onready var cannon_sprite: Sprite2D = $Cannon/Sprite2D
@@ -39,6 +41,10 @@ func _ready() -> void:
 
 	change_state(GAME_STATE.WAITING)
 	Transition.hide_transition()
+	
+	await get_tree().create_timer(10.0).timeout
+	
+	change_state(GAME_STATE.RUNNING)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -164,6 +170,12 @@ func on_streamer_wait(cmd_info : CommandInfo) -> void:
 	change_state(GAME_STATE.WAITING)
 
 func _on_target_body_entered(body: Node2D) -> void:
+	if not (player_goal_list.has(body.get_node("Name").text)):
+		player_goal_list[body.get_node("Name").text] = 1
+	else:
+		player_goal_list[body.get_node("Name").text] += 1
+	
+	
 	target.activate()
 	change_state(GAME_STATE.WINNER)
 	next_round()
@@ -175,3 +187,7 @@ func on_transparency_toggled(transparent: bool) -> void:
 	for node in get_tree().get_nodes_in_group("Background"):
 		node.visible = not transparent
 		get_viewport().transparent_bg = transparent
+
+func _on_leaderboard_pressed():
+	Leaderboard.list = player_goal_list
+	get_tree().change_scene_to_file("res://scenes/ui/leaderboard.tscn")

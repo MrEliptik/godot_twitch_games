@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://35ktida5n6y5"]
+[gd_scene load_steps=9 format=3 uid="uid://35ktida5n6y5"]
 
 [ext_resource type="FontFile" uid="uid://rmkjlvce4dyv" path="res://shared/fonts/MPLUSCodeLatin-Bold.ttf" id="1_ff7lw"]
+[ext_resource type="Script" path="res://scenes/ui/scripts/show_leaderboard.gd" id="1_p2vo4"]
 
 [sub_resource type="Gradient" id="Gradient_e174d"]
 offsets = PackedFloat32Array(0, 0.986486)
@@ -15,8 +16,8 @@ metadata/_snap_enabled = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0dj6w"]
 bg_color = Color(0.164706, 0.164706, 0.164706, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
+corner_radius_top_left = 20
+corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 shadow_color = Color(0.392157, 0.392157, 0.392157, 0.6)
@@ -25,10 +26,6 @@ shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqs6f"]
 bg_color = Color(0.235294, 0.235294, 0.235294, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
 shadow_color = Color(0.321569, 0.321569, 0.321569, 0.6)
 shadow_size = 4
 
@@ -38,21 +35,14 @@ bg_color = Color(0.196078, 0.196078, 0.196078, 1)
 [sub_resource type="Theme" id="Theme_ki05x"]
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_2n4im")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t0djm"]
-bg_color = Color(0.196078, 0.196078, 0.196078, 1)
-corner_radius_top_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pqggj"]
-bg_color = Color(0.196078, 0.196078, 0.196078, 1)
-corner_radius_top_right = 20
-
-[node name="Control" type="Control"]
+[node name="leaderboard" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_p2vo4")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -80,7 +70,7 @@ theme_override_constants/margin_bottom = 125
 [node name="VBoxContainer" type="VBoxContainer" parent="OuterMarginContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="OuterMarginContainer/VBoxContainer"]
+[node name="title" type="Label" parent="OuterMarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_ff7lw")
 theme_override_font_sizes/font_size = 126
@@ -94,25 +84,25 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 500
 theme_override_constants/margin_right = 500
 
-[node name="PanelContainer" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer"]
+[node name="ContentPanelContainer" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_0dj6w")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer"]
+[node name="TopContainer" type="HBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.12
 
-[node name="MarginContainer" type="MarginContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer/TopContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = -70
 
-[node name="Label" type="Label" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/HBoxContainer/MarginContainer"]
+[node name="Label" type="Label" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer/TopContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.360784, 0.360784, 0.360784, 1)
@@ -121,12 +111,12 @@ text = "Top"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer/TopContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_right = -70
 
-[node name="Label2" type="Label" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
+[node name="Label2" type="Label" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer/TopContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.360784, 0.360784, 0.360784, 1)
@@ -135,106 +125,24 @@ text = "Score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ListMarginContainer" type="MarginContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer"]
+[node name="ListContainer" type="MarginContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_right = 15
 
-[node name="PanelContainer" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer/ListContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_iqs6f")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer/ListContainer/PanelContainer"]
 layout_mode = 2
 theme = SubResource("Theme_ki05x")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer"]
+[node name="TopList" type="VBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer/ListContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_t0djm")
-
-[node name="PanelContainer2" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer3" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer4" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer5" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer6" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer7" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer8" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer9" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer10" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer"]
+[node name="ScoreList" type="VBoxContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/ContentPanelContainer/VBoxContainer/ListContainer/PanelContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_pqggj")
-
-[node name="PanelContainer2" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer3" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer4" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer5" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer6" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer7" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer8" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer9" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="PanelContainer10" type="PanelContainer" parent="OuterMarginContainer/VBoxContainer/PanelMarginContainer/PanelContainer/VBoxContainer/ListMarginContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
-layout_mode = 2
-size_flags_vertical = 3
