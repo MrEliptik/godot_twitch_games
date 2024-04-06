@@ -41,10 +41,6 @@ func _ready() -> void:
 
 	change_state(GAME_STATE.WAITING)
 	Transition.hide_transition()
-	
-	await get_tree().create_timer(10.0).timeout
-	
-	change_state(GAME_STATE.RUNNING)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
