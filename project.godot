@@ -26,7 +26,6 @@ Transition="*res://autoload/transition.tscn"
 AdminWindow="*res://autoload/admin_window.tscn"
 SceneSwitcher="*res://autoload/scene_switcher.gd"
 GameConfigManager="*res://autoload/game_config_manager.gd"
-Leaderboard="*res://autoload/leaderboard.gd"
 
 [display]
 

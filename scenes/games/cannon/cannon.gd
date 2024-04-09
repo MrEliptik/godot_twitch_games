@@ -22,6 +22,7 @@ var player_goal_list: Dictionary = {}
 @onready var how_to_play: Label = $HowToPlay
 @onready var waiting: Label = $CanvasLayer/Waiting
 @onready var countdown: Label = $CanvasLayer/Countdown
+@onready var leaderboard: Control = $CanvasLayer/leaderboard
 
 func _ready() -> void:
 	GameConfigManager.load_config()
@@ -41,6 +42,9 @@ func _ready() -> void:
 
 	change_state(GAME_STATE.WAITING)
 	Transition.hide_transition()
+	
+	await get_tree().create_timer(10.0).timeout
+	change_state(GAME_STATE.RUNNING)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -171,7 +175,6 @@ func _on_target_body_entered(body: Node2D) -> void:
 	else:
 		player_goal_list[body.get_node("Name").text] += 1
 	
-	
 	target.activate()
 	change_state(GAME_STATE.WINNER)
 	next_round()
@@ -184,6 +187,6 @@ func on_transparency_toggled(transparent: bool) -> void:
 		node.visible = not transparent
 		get_viewport().transparent_bg = transparent
 
-func _on_leaderboard_pressed():
-	Leaderboard.list = player_goal_list
-	get_tree().change_scene_to_file("res://scenes/ui/leaderboard.tscn")
+func _on_leaderboard_button_pressed():
+	leaderboard.visible = true
+	leaderboard.show_leaderboard(player_goal_list)

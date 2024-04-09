@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://bvqg3p2j4hlqa"]
+
+[ext_resource type="Script" path="res://scenes/ui/scripts/leaderboard_entry.gd" id="1_s1uwh"]
+
+[node name="entry_panel" type="PanelContainer"]
+offset_right = 624.0
+offset_bottom = 64.0
+size_flags_vertical = 3
+script = ExtResource("1_s1uwh")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginLeft" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 65
+
+[node name="NameLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.509804, 0.509804, 0.509804, 1)
+text = "loading.."
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.509804, 0.509804, 0.509804, 1)
+text = "loading.."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="MarginRight" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 70

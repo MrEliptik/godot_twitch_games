@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b78rc3fjm3juq"]
+[gd_scene load_steps=32 format=3 uid="uid://b78rc3fjm3juq"]
 
 [ext_resource type="Script" path="res://scenes/games/cannon/cannon.gd" id="1_ltgiq"]
 [ext_resource type="Texture2D" uid="uid://bdi1tdifvrp1s" path="res://shared/visuals/dots_pattern.png" id="2_fqpkg"]
@@ -13,6 +13,7 @@
 [ext_resource type="FontFile" uid="uid://dd1r2fwpg8dya" path="res://shared/fonts/MPLUSCodeLatin-Medium.ttf" id="11_mb3wv"]
 [ext_resource type="FontFile" uid="uid://rmkjlvce4dyv" path="res://shared/fonts/MPLUSCodeLatin-Bold.ttf" id="12_culi7"]
 [ext_resource type="Script" path="res://scenes/games/cannon/countdown.gd" id="13_7e8rs"]
+[ext_resource type="PackedScene" uid="uid://35ktida5n6y5" path="res://scenes/ui/leaderboard.tscn" id="14_gtfwd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tjbxl"]
 shader = ExtResource("2_nh2hs")
@@ -489,13 +490,17 @@ offset_top = -527.0
 offset_right = 1667.0
 offset_bottom = 876.0
 
-[node name="leaderboard" type="Button" parent="CanvasLayer"]
+[node name="leaderboard" parent="CanvasLayer" instance=ExtResource("14_gtfwd")]
+offset_right = 32.0
+offset_bottom = 8.0
+
+[node name="leaderboard_button" type="Button" parent="CanvasLayer"]
 offset_left = 64.0
 offset_top = 192.0
 offset_right = 285.0
 offset_bottom = 223.0
-text = "Exit and view Leaderboards"
+text = "View Leaderboards"
 
 [connection signal="body_entered" from="Target" to="." method="_on_target_body_entered"]
 [connection signal="finished" from="CanvasLayer/Countdown" to="." method="_on_countdown_finished"]
-[connection signal="pressed" from="CanvasLayer/leaderboard" to="." method="_on_leaderboard_pressed"]
+[connection signal="pressed" from="CanvasLayer/leaderboard_button" to="." method="_on_leaderboard_button_pressed"]
