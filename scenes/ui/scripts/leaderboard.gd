@@ -1,6 +1,6 @@
 extends Control
 
-@onready var entry = load("res://scenes/ui/leaderboard_entry.tscn")
+@onready var entry = preload("res://scenes/ui/leaderboard_entry.tscn")
 
 @onready var score_list = %Scorelist
 
