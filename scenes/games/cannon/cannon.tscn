@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b78rc3fjm3juq"]
+[gd_scene load_steps=32 format=3 uid="uid://b78rc3fjm3juq"]
 
 [ext_resource type="Script" path="res://scenes/games/cannon/cannon.gd" id="1_ltgiq"]
 [ext_resource type="Texture2D" uid="uid://bdi1tdifvrp1s" path="res://shared/visuals/dots_pattern.png" id="2_fqpkg"]
@@ -13,6 +13,7 @@
 [ext_resource type="FontFile" uid="uid://dd1r2fwpg8dya" path="res://shared/fonts/MPLUSCodeLatin-Medium.ttf" id="11_mb3wv"]
 [ext_resource type="FontFile" uid="uid://rmkjlvce4dyv" path="res://shared/fonts/MPLUSCodeLatin-Bold.ttf" id="12_culi7"]
 [ext_resource type="Script" path="res://scenes/games/cannon/countdown.gd" id="13_7e8rs"]
+[ext_resource type="PackedScene" uid="uid://35ktida5n6y5" path="res://scenes/ui/leaderboard.tscn" id="14_gtfwd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tjbxl"]
 shader = ExtResource("2_nh2hs")
@@ -136,18 +137,16 @@ curve = SubResource("Curve_vfmsl")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x1mn5"]
 lifetime_randomness = 0.35
 particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
 spread = 95.55
-gravity = Vector3(0, 0, 0)
 initial_velocity_min = 160.49
 initial_velocity_max = 351.85
 angular_velocity_min = 133.33
 angular_velocity_max = 248.89
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 0, 0)
 damping_min = 30.864
 damping_max = 51.852
-angle_min = -720.0
-angle_max = 720.0
 scale_curve = SubResource("CurveTexture_hjeaq")
 color_ramp = SubResource("GradientTexture1D_i1mor")
 
@@ -273,10 +272,10 @@ texture = ExtResource("4_2s6c1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Cannon/Sprite2D/Eye"]
 root_node = NodePath("../../..")
-autoplay = "blink"
 libraries = {
 "": SubResource("AnimationLibrary_ka713")
 }
+autoplay = "blink"
 
 [node name="Label" type="Label" parent="Cannon"]
 self_modulate = Color(1, 1, 1, 0.537255)
@@ -389,10 +388,10 @@ metadata/_edit_group_ = true
 polygon = PackedVector2Array(35, -24, 22, -13, 18, -3, 20, 7, 25, 14, 36, 23, 16, 41, -4, 31, -15, 20, -22, 11, -25, -2, -22, -14, -10, -28, 14, -43)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Target"]
-autoplay = "go_through_loop"
 libraries = {
 "": SubResource("AnimationLibrary_sqngn")
 }
+autoplay = "go_through_loop"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(960, 1064)
@@ -491,5 +490,17 @@ offset_top = -527.0
 offset_right = 1667.0
 offset_bottom = 876.0
 
+[node name="leaderboard" parent="CanvasLayer" instance=ExtResource("14_gtfwd")]
+offset_right = 32.0
+offset_bottom = 8.0
+
+[node name="leaderboard_button" type="Button" parent="CanvasLayer"]
+offset_left = 64.0
+offset_top = 192.0
+offset_right = 285.0
+offset_bottom = 223.0
+text = "View Leaderboards"
+
 [connection signal="body_entered" from="Target" to="." method="_on_target_body_entered"]
 [connection signal="finished" from="CanvasLayer/Countdown" to="." method="_on_countdown_finished"]
+[connection signal="pressed" from="CanvasLayer/leaderboard_button" to="." method="_on_leaderboard_button_pressed"]

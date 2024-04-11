@@ -3,12 +3,12 @@
 [ext_resource type="Script" path="res://scenes/ui/scripts/selection.gd" id="1_58emc"]
 [ext_resource type="PackedScene" uid="uid://hc88uh4mv3bl" path="res://scenes/ui/selection_button.tscn" id="1_b3pkf"]
 
-[sub_resource type="Gradient" id="Gradient_e174d"]
+[sub_resource type="Gradient" id="Gradient_1xoat"]
 offsets = PackedFloat32Array(0, 0.986486)
 colors = PackedColorArray(0.128906, 0.128906, 0.128906, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_0j12g"]
-gradient = SubResource("Gradient_e174d")
+gradient = SubResource("Gradient_1xoat")
 width = 1280
 height = 720
 fill_to = Vector2(1, 1)
