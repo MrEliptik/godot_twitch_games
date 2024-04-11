@@ -21,8 +21,6 @@ curve = SubResource("Curve_nqjmr")
 lifetime_randomness = 0.2
 particle_flag_disable_z = true
 gravity = Vector3(0, 0, 0)
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
 scale_curve = SubResource("CurveTexture_b736v")
 
 [sub_resource type="Gradient" id="Gradient_ql0u4"]
@@ -44,8 +42,8 @@ radius = 15.0
 collision_layer = 3
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_uddch")
-continuous_cd = 2
 can_sleep = false
+continuous_cd = 2
 script = ExtResource("1_3enl3")
 
 [node name="Name" type="Label" parent="."]
