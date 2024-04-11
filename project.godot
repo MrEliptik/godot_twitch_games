@@ -6,7 +6,7 @@ config/name="godot_twitch_games"
 run/main_scene="res://scenes/ui/selection.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.png"
-config/version="0.0.6"
+config/version="0.0.7"
 config/tags=PackedStringArray("stream", "tool")
 
 [autoload]
