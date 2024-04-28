@@ -7,7 +7,7 @@ from datetime import datetime
 from win32com.client import Dispatch
 import pathlib
 
-godot_path = "C:\Program Files\Godot\Godot_v4_1_3-stable_win64_exe\Godot_v4.1.3-stable_win64.exe"
+godot_path = "C:\Program Files\Godot\Godot_v4_2_1-stable_win64_exe\Godot_v4.2.1-stable_win64.exe"
 gh_cli_path = 'C:\Program Files\GitHub CLI\gh.exe'
 
 build_path = "build/"
@@ -41,7 +41,8 @@ def export_template(template, build_path, build_nb):
         print("    |---> Template folder already exists: " + build_path_template)
 
     # "C:\Program Files\Godot\Godot_v4_1_3-stable_win64_exe\Godot_v4.1.3-stable_win64.exe" --headless --export-release "Linux/X11" /var/builds/project
-    cmd = [godot_path, "--headless", "--export-release", template, os.path.join(build_path_template, exe_name)]
+    # cmd = [godot_path, "--headless", "--export-release", template, os.path.join(build_path_template, exe_name)]
+    cmd = [godot_path, "--export-release", template, os.path.join(build_path_template, exe_name)]
     print("    |---> Executing command: ", cmd)
 
     with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1, encoding='utf-8') as sp:
