@@ -12,7 +12,12 @@ func show_leaderboard(dict: Dictionary) -> void:
 
 	# Sort keys in descending order of values.
 	keys.sort_custom(func(x: String, y: String) -> bool: return dict[x] > dict[y])
-
+	
+	# Remove entries before adding new ones
+	for c in score_list.get_children():
+		c.queue_free()
+	
+	# Add entries
 	for k: String in keys:
 		var entry_instance = entry.instantiate()
 		score_list.add_child(entry_instance)
