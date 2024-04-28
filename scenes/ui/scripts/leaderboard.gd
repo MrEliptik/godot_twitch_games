@@ -1,8 +1,8 @@
 extends Control
 
-@onready var entry = preload("res://scenes/ui/leaderboard_entry.tscn")
+@export var entry: PackedScene = preload("res://scenes/ui/leaderboard_entry.tscn")
 
-@onready var score_list = %Scorelist
+@onready var score_list: VBoxContainer = %Scorelist
 
 func _ready():
 	visible = false
