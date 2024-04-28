@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="godot_twitch_games"
-config/version="0.0.8"
+config/version="0.0.9"
 config/tags=PackedStringArray("stream", "tool")
 run/main_scene="res://scenes/ui/selection.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
